@@ -1,16 +1,26 @@
 package me.devksh930.bookstorage.domain;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
-@Entity
+import java.util.concurrent.TimeUnit;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@RedisHash("Token")
 public class Token {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String refreshToken;
 
-    @ManyToOne
-    private User user;
+    @TimeToLive(unit = TimeUnit.MILLISECONDS)
+    private long refreshTokenTTL;
 }
