@@ -50,7 +50,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         }
 
-        log.info("엑세스 토큰 유효성 체크 결과({})",  isValidationAccessToken);
+        log.info("엑세스 토큰 유효성 체크 결과({})", isValidationAccessToken);
         log.info("리프레쉬 토큰 유효성 체크 결과({})", isValidationRefreshToken);
 
 //        엑세스 토큰과 리프레쉬 토큰이 모두 성공적으로 검증됫을경우
@@ -65,6 +65,9 @@ public class JwtFilter extends OncePerRequestFilter {
         if (!isValidationRefreshToken) {
             CookieUtil.deleteCookie(request, response, TokenType.REFRESH_TOKEN.name());
             CookieUtil.deleteCookie(request, response, TokenType.ACCESS_TOKEN.name());
+            if (accessToken != null) {
+                tokenRepository.deleteById(UUID.fromString(jwtTokenProvider.getuserId(accessToken)));
+            }
         }
 
         filterChain.doFilter(request, response);
