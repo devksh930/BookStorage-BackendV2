@@ -1,6 +1,9 @@
-package me.devksh930.bookstorage.util;
+package me.devksh930.bookstorage.authentication;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +80,7 @@ public class JwtTokenProvider implements InitializingBean {
         return new Date((new Date()).getTime() + ttlTime);
     }
 
-    public long acceesTokenExpDate() {
+    public long accessTokenExpDate() {
         return accessTokenTTL;
     }
 

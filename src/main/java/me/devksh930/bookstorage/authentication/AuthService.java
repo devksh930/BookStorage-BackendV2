@@ -6,7 +6,6 @@ import me.devksh930.bookstorage.UserRepository;
 import me.devksh930.bookstorage.domain.Token;
 import me.devksh930.bookstorage.user.dto.TokenDto;
 import me.devksh930.bookstorage.user.dto.UserLoginDto;
-import me.devksh930.bookstorage.util.JwtTokenProvider;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -70,7 +69,7 @@ public class AuthService implements UserDetailsService {
         Token token = new Token();
         token.setId(authentication.getName());
         token.setRefreshToken(jwtTokenProvider.createRefreshToken(authentication.getName()));
-        token.setRefreshTokenTTL(jwtTokenProvider.acceesTokenExpDate());
+        token.setRefreshTokenTTL(jwtTokenProvider.accessTokenExpDate());
         Token save = tokenRepository.save(token);
         return save;
     }

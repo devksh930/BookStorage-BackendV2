@@ -1,5 +1,6 @@
 package me.devksh930.bookstorage.util;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.SerializationUtils;
 
@@ -10,6 +11,7 @@ import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
+@UtilityClass
 public class CookieUtil {
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();

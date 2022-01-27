@@ -1,8 +1,8 @@
 package me.devksh930.bookstorage.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.devksh930.bookstorage.domain.User;
 import me.devksh930.bookstorage.authentication.CurrentUser;
+import me.devksh930.bookstorage.domain.User;
 import me.devksh930.bookstorage.user.UserService;
 import me.devksh930.bookstorage.user.dto.UserRequestDto;
 import me.devksh930.bookstorage.user.dto.UserSignUpDto;

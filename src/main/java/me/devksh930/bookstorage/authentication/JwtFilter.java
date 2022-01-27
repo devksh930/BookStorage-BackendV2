@@ -6,7 +6,6 @@ import me.devksh930.bookstorage.TokenRepository;
 import me.devksh930.bookstorage.domain.Token;
 import me.devksh930.bookstorage.domain.TokenType;
 import me.devksh930.bookstorage.util.CookieUtil;
-import me.devksh930.bookstorage.util.JwtTokenProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -74,7 +73,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private void setAuthentication(String token, HttpServletResponse response) {
         Authentication authentication = authService.tokenLogin(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        CookieUtil.addCookie(response, TokenType.ACCESS_TOKEN.name(), jwtTokenProvider.createAccessToken(authentication), jwtTokenProvider.acceesTokenExpDate() / 1000);
+        CookieUtil.addCookie(response, TokenType.ACCESS_TOKEN.name(), jwtTokenProvider.createAccessToken(authentication), jwtTokenProvider.accessTokenExpDate() / 1000);
     }
 
     private boolean isTokenValid(String token) {
