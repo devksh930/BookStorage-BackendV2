@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.devksh930.bookstorage.TokenRepository;
 import me.devksh930.bookstorage.domain.Token;
 import me.devksh930.bookstorage.domain.TokenType;
-import me.devksh930.bookstorage.authentication.AuthService;
 import me.devksh930.bookstorage.util.CookieUtil;
 import me.devksh930.bookstorage.util.JwtTokenProvider;
 import org.springframework.security.core.Authentication;

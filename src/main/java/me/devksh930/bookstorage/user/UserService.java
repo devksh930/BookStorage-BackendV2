@@ -29,7 +29,8 @@ public class UserService {
                     userSignUpDto.getUsername(),
                     userSignUpDto.getNickname(),
                     passwordEncoder.encode(userSignUpDto.getPassword()),
-                    RoleType.ROLE_USER, false);
+                    RoleType.ROLE_NOT_CERTIFIED,
+                    false);
 
             User save = userRepository.save(user);
             return modelMapper.map(save, UserRequestDto.class);

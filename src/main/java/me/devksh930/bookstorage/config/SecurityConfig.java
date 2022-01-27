@@ -1,6 +1,8 @@
 package me.devksh930.bookstorage.config;
 
 import lombok.RequiredArgsConstructor;
+import me.devksh930.bookstorage.authentication.JwtAccessDeniedHandler;
+import me.devksh930.bookstorage.authentication.JwtAuthenticationEntryPointHandler;
 import me.devksh930.bookstorage.authentication.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter filter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -30,7 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll()
                 .antMatchers("/users/me").authenticated()
                 .and()
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new JwtAuthenticationEntryPointHandler())
+                .accessDeniedHandler(new JwtAccessDeniedHandler());
     }
 
     @Bean
@@ -38,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override @Bean
+    @Override
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
