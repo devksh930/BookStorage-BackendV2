@@ -1,0 +1,112 @@
+package com.bookstoragev2.bookstorage.controller;
+
+import com.bookstoragev2.bookstorage.UserRepository;
+import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
+import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
+import com.bookstoragev2.bookstorage.config.WithUser;
+import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.payload.RequestFieldsSnippet;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.nio.charset.StandardCharsets;
+
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
+@IntergrationTestWithRestDocs
+public class UserControllerTest {
+
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @BeforeEach
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(documentationConfiguration(restDocumentation)).build();
+    }
+    @AfterEach
+    public void afterEach() {
+        userRepository.deleteAll();
+    }
+
+    @Test
+    @DisplayName("회원가입을 한다")
+    public void signUp() throws Exception {
+        UserSignUpDto signUp = new UserSignUpDto();
+        signUp.setUserId("testUser");
+        signUp.setPassword("password");
+        signUp.setNickname("닉네임");
+        signUp.setEmail("email@email.com");
+
+        ResultActions resultActions = mockMvc.perform(post("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(signUp)));
+
+
+        resultActions.andExpect(
+                        MockMvcResultMatchers.status().isCreated())
+                .andDo(document("users",
+                        ApiDocumentUtils.getDocumentRequest(),
+                        ApiDocumentUtils.getDocumentResponse(),
+                        getRequestFieldsSnippet(),
+                        getResponseFieldsSnippet()));
+    }
+
+    @Test
+    @DisplayName("회원가입한 유저의 정보를 가져온다")
+    @WithUser("test@test.com")
+    public void getLoginUserinfo() throws Exception {
+        ResultActions resultActions = mockMvc.perform(get("/users/me")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON));
+
+
+        resultActions.andExpect(
+                        MockMvcResultMatchers.status().isOk())
+                .andDo(document("users/me",
+                        ApiDocumentUtils.getDocumentResponse(),
+                        getResponseFieldsSnippet()));
+    }
+
+    private ResponseFieldsSnippet getResponseFieldsSnippet() {
+        return responseFields(
+                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로파일이미지 위치"));
+    }
+
+    private RequestFieldsSnippet getRequestFieldsSnippet() {
+        return requestFields(
+                fieldWithPath("userId").type(JsonFieldType.STRING).description("유저의 ID"),
+                fieldWithPath("email").type(JsonFieldType.STRING).description("유저의 이메일"),
+                fieldWithPath("password").type(JsonFieldType.STRING).description("패스워드"),
+                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"));
+    }
+}
