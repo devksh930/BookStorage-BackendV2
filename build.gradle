@@ -68,8 +68,8 @@ test {
 }
 
 asciidoctor {
-    inputs.dir snippetsDir
     dependsOn test
+    inputs.dir snippetsDir
 }
 
 asciidoctor.doFirst {
@@ -81,7 +81,25 @@ task copyDocument(type: Copy) {
     from file("build/docs/asciidoc")
     into file("src/main/resources/static/docs")
 }
+task moveLib {
+    doLast {
+        def unpackDir = "$buildDir/unpack"
+        ant.move(file: "${unpackDir}/app/BOOT-INF/lib", toFile: "${unpackDir}/lib")
+    }
+}
+
+task unpackJar(type: Copy) {
+    def unpackDir = "$buildDir/unpack"
+    def jarFile = "$buildDir/libs/${rootProject.name}-${version}.jar"
+
+    delete unpackDir
+    from zipTree(jarFile)
+    into "$unpackDir/app"
+
+    finalizedBy moveLib
+}
 
 build {
     dependsOn copyDocument
+    finalizedBy unpackJar
 }
