@@ -41,3 +41,5 @@ out/
 /src/main/resources/application-jwt.yml
 /src/main/resources/application-dev.yml
 docker-compose.yml
+BOOT-INF
+gradle
