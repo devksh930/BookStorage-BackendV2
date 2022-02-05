@@ -1,0 +1,40 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+
+[[resources]]
+= User API
+
+[[resources-user-create]]
+== 회원가입
+=== 요청
+include::{snippets}/users/http-request.adoc[]
+include::{snippets}/users/request-fields.adoc[]
+=== 응답
+include::{snippets}/users/http-response.adoc[]
+include::{snippets}/users/response-body.adoc[]
+include::{snippets}/users/response-fields.adoc[]
+
+[[resources-user-me]]
+== 내정보
+=== 요청
+include::{snippets}/users/me/http-request.adoc[]
+=== 응답
+include::{snippets}/users/me/http-response.adoc[]
+include::{snippets}/users/me/response-body.adoc[]
+include::{snippets}/users/me/response-fields.adoc[]
+[[resources-user-login]]
+
+== 로그인
+=== 요청
+include::{snippets}/auth/http-request.adoc[]
+include::{snippets}/auth/request-body.adoc[]
+=== 응답
+include::{snippets}/auth/http-response.adoc[]
