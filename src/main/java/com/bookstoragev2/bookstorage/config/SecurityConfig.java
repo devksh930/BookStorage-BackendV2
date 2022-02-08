@@ -1,11 +1,13 @@
 package com.bookstoragev2.bookstorage.config;
 
+import com.bookstoragev2.bookstorage.authentication.CustomUserDetailService;
 import com.bookstoragev2.bookstorage.authentication.JwtAccessDeniedHandler;
-import lombok.RequiredArgsConstructor;
 import com.bookstoragev2.bookstorage.authentication.JwtAuthenticationEntryPointHandler;
 import com.bookstoragev2.bookstorage.authentication.JwtFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,6 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter filter;
+    private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final JwtAuthenticationEntryPointHandler authenticationEntryPointHandler;
+    private final CustomUserDetailService userDetailService;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,12 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/users").permitAll()
+                .antMatchers("/auth").permitAll()
                 .antMatchers("/users/me").authenticated()
                 .and()
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(new JwtAuthenticationEntryPointHandler())
-                .accessDeniedHandler(new JwtAccessDeniedHandler());
+                .authenticationEntryPoint(authenticationEntryPointHandler)
+                .accessDeniedHandler(accessDeniedHandler);
     }
 
     @Bean
