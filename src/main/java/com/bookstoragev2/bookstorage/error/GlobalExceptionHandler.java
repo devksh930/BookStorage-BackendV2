@@ -1,5 +1,6 @@
 package com.bookstoragev2.bookstorage.error;
 
+import com.bookstoragev2.bookstorage.common.util.ApiUtils;
 import com.bookstoragev2.bookstorage.error.exception.CustomAuthenticationEntryPointException;
 import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;
 import lombok.extern.slf4j.Slf4j;

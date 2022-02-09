@@ -1,6 +1,8 @@
 package com.bookstoragev2.bookstorage.controller;
 
 import com.bookstoragev2.bookstorage.authentication.CurrentUser;
+import com.bookstoragev2.bookstorage.common.util.ApiResult;
+import com.bookstoragev2.bookstorage.common.util.ApiUtils;
 import com.bookstoragev2.bookstorage.domain.User;
 import com.bookstoragev2.bookstorage.user.UserService;
 import com.bookstoragev2.bookstorage.user.dto.UserRequestDto;
@@ -8,7 +10,6 @@ import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,12 +22,13 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<UserRequestDto> signUp(@RequestBody UserSignUpDto userSignUpDto) {
-        return new ResponseEntity<>(userService.joinUser(userSignUpDto), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResult<UserRequestDto> signUp(@RequestBody UserSignUpDto userSignUpDto) {
+        return ApiUtils.success(userService.joinUser(userSignUpDto));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserRequestDto> getLoginUserinfo(@CurrentUser User user) {
-        return new ResponseEntity<>(modelMapper.map(user, UserRequestDto.class), HttpStatus.OK);
+    public ApiResult<UserRequestDto> getLoginUserinfo(@CurrentUser User user) {
+        return ApiUtils.success(modelMapper.map(user, UserRequestDto.class));
     }
 }

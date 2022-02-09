@@ -97,9 +97,10 @@ public class UserControllerTest {
 
     private ResponseFieldsSnippet getResponseFieldsSnippet() {
         return responseFields(
-                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로파일이미지 위치"));
+                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
+                fieldWithPath("result.nickname").type(JsonFieldType.STRING).description("닉네임"),
+                fieldWithPath("result.email").type(JsonFieldType.STRING).description("이메일"),
+                fieldWithPath("result.profileImageUrl").type(JsonFieldType.STRING).description("프로파일이미지 위치"));
     }
 
     private RequestFieldsSnippet getRequestFieldsSnippet() {

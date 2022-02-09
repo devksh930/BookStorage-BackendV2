@@ -16,7 +16,7 @@ public class ErrorController {
     }
 
     @GetMapping("/accessdenied")
-    public ResponseEntity<String> accessDenied() {
+    public ResponseEntity accessDenied() {
         throw new AccessDeniedException("");
     }
 }

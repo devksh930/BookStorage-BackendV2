@@ -532,21 +532,27 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 100
+Content-Length: 145
 
 {
-  "nickname" : "닉네임",
-  "email" : "email@email.com",
-  "profileImageUrl" : "DEFAULT_IMAGE"
+  "success" : true,
+  "result" : {
+    "nickname" : "닉네임",
+    "email" : "email@email.com",
+    "profileImageUrl" : "DEFAULT_IMAGE"
+  }
 }</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "nickname" : "닉네임",
-  "email" : "email@email.com",
-  "profileImageUrl" : "DEFAULT_IMAGE"
+  "success" : true,
+  "result" : {
+    "nickname" : "닉네임",
+    "email" : "email@email.com",
+    "profileImageUrl" : "DEFAULT_IMAGE"
+  }
 }</code></pre>
 </div>
 </div>
@@ -565,17 +571,22 @@ Content-Length: 100
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.nickname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.profileImageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">프로파일이미지 위치</p></td>
 </tr>
@@ -604,21 +615,27 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 93
+Content-Length: 138
 
 {
-  "nickname" : "test",
-  "email" : "test@test.com",
-  "profileImageUrl" : "DEFAULT_IMAGE"
+  "success" : true,
+  "result" : {
+    "nickname" : "test",
+    "email" : "test@test.com",
+    "profileImageUrl" : "DEFAULT_IMAGE"
+  }
 }</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "nickname" : "test",
-  "email" : "test@test.com",
-  "profileImageUrl" : "DEFAULT_IMAGE"
+  "success" : true,
+  "result" : {
+    "nickname" : "test",
+    "email" : "test@test.com",
+    "profileImageUrl" : "DEFAULT_IMAGE"
+  }
 }</code></pre>
 </div>
 </div>
@@ -637,17 +654,22 @@ Content-Length: 93
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.nickname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.profileImageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">프로파일이미지 위치</p></td>
 </tr>
@@ -689,8 +711,15 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: ACCESS_TOKEN=rO0ABXQBO2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKQlEwTkZVMU5mVkU5TFJVNGlMQ0poZFhSb0lqb2lVazlNUlY5T1QxUmZRMFZTVkVsR1NVVkVJaXdpZFhObGNrbGtJam9pTW1VelkyWXdOemN0TmpJME5pMDBZemcyTFdJM1pEZ3RZV013T0Roak1UUm1OemM0SWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0pwWVhRaU9qRTJORFF3TlRRek1qRXNJbVY0Y0NJNk1UWTBOREE1TnpVeU1YMC5hbGJlbEx0ejc2NlB1MlhINlgxNjdyUXVhLTZIdUJxaXdhTU9mcUFtM0daVGlWeXFiam4yRXdET1FBWkpRUGh2T1JDQThvUy14c3Nzb0xhaURiRlctdw==; Path=/; Max-Age=43200; Expires=Sat, 05 Feb 2022 21:45:21 GMT
-Set-Cookie: REFRESH_TOKEN=rO0ABXQBF2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKU1JVWlNSVk5JWDFSUFMwVk9JaXdpZFhObGNrbGtJam9pTW1VelkyWXdOemN0TmpJME5pMDBZemcyTFdJM1pEZ3RZV013T0Roak1UUm1OemM0SWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0psZUhBaU9qRTJORFkyTkRZek1qQXNJbWxoZENJNk1UWTBOREExTkRNeU1IMC5EZFlEYldVd1REMDJyZ3FYbGxMcFJZZHUyc2tyWTNfX3o5SkVKZUdNa1U3QjYyZWd4QkJwNG1vRXd4SUdiOWVZVjNaMU4yQXRqZ0hUSzdBQWFadzltQQ==; Path=/; Max-Age=2592000; Expires=Mon, 07 Mar 2022 09:45:21 GMT</code></pre>
+Set-Cookie: ACCESS_TOKEN=rO0ABXQBO2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKQlEwTkZVMU5mVkU5TFJVNGlMQ0poZFhSb0lqb2lVazlNUlY5T1QxUmZRMFZTVkVsR1NVVkVJaXdpZFhObGNrbGtJam9pT1RFek16azVaV0V0WVdSall5MDBNMlEzTFdFelptTXRaV0ZrTlRReFlUZzNZemt3SWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0pwWVhRaU9qRTJORFF6T1RNeU1UWXNJbVY0Y0NJNk1UWTBORFF6TmpReE5uMC5IV1FBYVNOQ3QyUGozYVZIZWkwbmpYNjBnOEVacW5GOWg4eGNSTDlVR25KSVFhVUhFem9yR1lQbGtIRHRxVF9JTmVYcWdFNWMzSlBDcVJwcjB4Wnl6dw==; Path=/; Max-Age=43200; Expires=Wed, 09 Feb 2022 19:53:36 GMT
+Set-Cookie: REFRESH_TOKEN=rO0ABXQBF2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKU1JVWlNSVk5JWDFSUFMwVk9JaXdpZFhObGNrbGtJam9pT1RFek16azVaV0V0WVdSall5MDBNMlEzTFdFelptTXRaV0ZrTlRReFlUZzNZemt3SWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0psZUhBaU9qRTJORFk1T0RVeU1UWXNJbWxoZENJNk1UWTBORE01TXpJeE5uMC5WNktHNW5QOThlOEJ6ZllKWHYwTkVuOHRRM2FrZnZnenhaZ0NjQW12bFRiWGFKZXIxMjhuOEJKMUk0eXRJU3NmTnV0S29MbHlSTVdBdFlIMUlwa0tvUQ==; Path=/; Max-Age=2592000; Expires=Fri, 11 Mar 2022 07:53:36 GMT
+Content-Type: application/json
+Content-Length: 41
+
+{
+  "success" : true,
+  "result" : null
+}</code></pre>
 </div>
 </div>
 </div>
