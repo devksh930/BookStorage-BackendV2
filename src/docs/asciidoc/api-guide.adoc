@@ -21,6 +21,9 @@ include::{snippets}/users/request-fields.adoc[]
 include::{snippets}/users/http-response.adoc[]
 include::{snippets}/users/response-body.adoc[]
 include::{snippets}/users/response-fields.adoc[]
+=== 실패(이미 존재하는 회원으로 회원가입시)
+include::{snippets}/users/exist/http-response.adoc[]
+include::{snippets}/users/exist/response-fields.adoc[]
 
 [[resources-user-me]]
 == 내정보
@@ -38,3 +41,6 @@ include::{snippets}/auth/http-request.adoc[]
 include::{snippets}/auth/request-body.adoc[]
 === 응답
 include::{snippets}/auth/http-response.adoc[]
+=== 실패(잘못된 계정으로 로그인시)
+include::{snippets}/auth/fail/http-response.adoc[]
+include::{snippets}/auth/fail/response-fields.adoc[]

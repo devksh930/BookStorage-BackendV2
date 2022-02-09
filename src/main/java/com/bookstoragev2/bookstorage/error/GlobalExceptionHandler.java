@@ -32,14 +32,14 @@ public class GlobalExceptionHandler {
     //    User
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleAuthenticationException(BadCredentialsException e) {
-        log.error("Handle LoginInputInvalidException ");
+        log.error("Handle LoginInputInvalidException ",e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.LOGIN_INPUT_INVALID);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.LOGIN_INPUT_INVALID.getStatus()));
     }
 
     @ExceptionHandler(UserJoinExistException.class)
     protected ResponseEntity<ErrorResponse> handUserJoinExistException(UserJoinExistException e) {
-        log.error("Handle UserJoinExistException ");
+        log.error("Handle UserJoinExistException ", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.USER_EXISTS_JOIN);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.USER_EXISTS_JOIN.getStatus()));
     }}

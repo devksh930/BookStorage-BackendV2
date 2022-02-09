@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,6 +27,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.responseH
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntergrationTestWithRestDocs
@@ -50,6 +53,7 @@ class AuthControllerTest {
     public void afterEach() {
         userRepository.deleteAll();
     }
+
     @Test
     @DisplayName("로그인을 한다")
     @WithUser("test@test.com")
@@ -76,5 +80,32 @@ class AuthControllerTest {
                                         headerWithName(HttpHeaders.SET_COOKIE).description("리프레쉬 토큰 쿠키")
                                 )
                         ));
+    }
+
+    @Test
+    @DisplayName("실패: 잘못된 아이디와 이메일로 로그인을 한다")
+    @WithUser("test@test.com")
+    public void login_fail() throws Exception {
+        UserLoginDto loginDto = new UserLoginDto();
+        loginDto.setEmail("test@test.com");
+        loginDto.setPassword("12345");
+
+        ResultActions resultActions = mockMvc.perform(post("/auth")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(loginDto)));
+
+        resultActions.andExpect(
+                        status().isBadRequest())
+                .andDo(
+                        document(
+                                "auth/fail",
+                                ApiDocumentUtils.getDocumentResponse(),
+                                responseFields(
+                                        fieldWithPath("status").type(JsonFieldType.NUMBER).description("HTTP 상태코드"),
+                                        fieldWithPath("code").type(JsonFieldType.STRING).description("에러번호"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 사유"))));
+
     }
 }

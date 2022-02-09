@@ -1,5 +1,7 @@
 package com.bookstoragev2.bookstorage.controller;
 
+import com.bookstoragev2.bookstorage.domain.RoleType;
+import com.bookstoragev2.bookstorage.domain.User;
 import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
@@ -16,6 +18,7 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -48,13 +51,14 @@ public class UserControllerTest {
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(documentationConfiguration(restDocumentation)).build();
     }
+
     @AfterEach
     public void afterEach() {
         userRepository.deleteAll();
     }
 
     @Test
-    @DisplayName("회원가입을 한다")
+    @DisplayName("성공:회원가입을 한다")
     public void signUp() throws Exception {
         UserSignUpDto signUp = new UserSignUpDto();
         signUp.setUserId("testUser");
@@ -78,8 +82,9 @@ public class UserControllerTest {
                         getResponseFieldsSnippet()));
     }
 
+
     @Test
-    @DisplayName("회원가입한 유저의 정보를 가져온다")
+    @DisplayName("성공:현재 로그인한 유저의 정보를 가져온다")
     @WithUser("test@test.com")
     public void getLoginUserinfo() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/users/me")
@@ -93,6 +98,35 @@ public class UserControllerTest {
                 .andDo(document("users/me",
                         ApiDocumentUtils.getDocumentResponse(),
                         getResponseFieldsSnippet()));
+    }
+
+    @Test
+    @DisplayName("실패:이미 존재하는 회원으로 회원가입을 한다")
+    public void signUp_existUser() throws Exception {
+        UserSignUpDto signUp = new UserSignUpDto();
+        signUp.setUserId("testUser");
+        signUp.setPassword("password");
+        signUp.setNickname("닉네임");
+        signUp.setEmail("email@email.com");
+        User user = new User("testUSer", "email@eamil.com", "닉네임", "1234", RoleType.ROLE_USER, true);
+        userRepository.save(user);
+
+        ResultActions resultActions = mockMvc.perform(post("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(signUp)));
+
+
+        resultActions.andExpect(
+                        MockMvcResultMatchers.status().isConflict())
+                .andDo(document("users/exist",
+                        ApiDocumentUtils.getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("HTTP 상태코드"),
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("에러번호"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("에러 사유")
+                        )));
     }
 
     private ResponseFieldsSnippet getResponseFieldsSnippet() {
