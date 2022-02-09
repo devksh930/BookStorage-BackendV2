@@ -21,8 +21,8 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<UserSignUpDto> signUp(@RequestBody UserSignUpDto userSignUpDto) {
-        return new ResponseEntity(userService.joinUser(userSignUpDto), HttpStatus.CREATED);
+    public ResponseEntity<UserRequestDto> signUp(@RequestBody UserSignUpDto userSignUpDto) {
+        return new ResponseEntity<>(userService.joinUser(userSignUpDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/me")

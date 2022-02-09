@@ -1,5 +1,6 @@
 package com.bookstoragev2.bookstorage;
 
+import com.bookstoragev2.bookstorage.user.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

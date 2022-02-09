@@ -1,6 +1,5 @@
 package com.bookstoragev2.bookstorage.user;
 
-import com.bookstoragev2.bookstorage.UserRepository;
 import com.bookstoragev2.bookstorage.domain.RoleType;
 import com.bookstoragev2.bookstorage.domain.User;
 import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;

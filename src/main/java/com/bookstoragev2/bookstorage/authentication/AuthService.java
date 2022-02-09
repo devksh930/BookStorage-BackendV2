@@ -1,7 +1,7 @@
 package com.bookstoragev2.bookstorage.authentication;
 
-import com.bookstoragev2.bookstorage.TokenRepository;
 import com.bookstoragev2.bookstorage.domain.Token;
+import com.bookstoragev2.bookstorage.user.TokenRepository;
 import com.bookstoragev2.bookstorage.user.dto.TokenDto;
 import com.bookstoragev2.bookstorage.user.dto.UserLoginDto;
 import lombok.extern.slf4j.Slf4j;

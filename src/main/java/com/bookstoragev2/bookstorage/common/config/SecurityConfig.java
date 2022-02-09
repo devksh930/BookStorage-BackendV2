@@ -1,4 +1,4 @@
-package com.bookstoragev2.bookstorage.config;
+package com.bookstoragev2.bookstorage.common.config;
 
 import com.bookstoragev2.bookstorage.authentication.CustomUserDetailService;
 import com.bookstoragev2.bookstorage.authentication.JwtAccessDeniedHandler;

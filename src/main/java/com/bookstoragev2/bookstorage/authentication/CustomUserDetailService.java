@@ -1,7 +1,7 @@
 package com.bookstoragev2.bookstorage.authentication;
 
-import com.bookstoragev2.bookstorage.UserRepository;
 import com.bookstoragev2.bookstorage.domain.User;
+import com.bookstoragev2.bookstorage.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

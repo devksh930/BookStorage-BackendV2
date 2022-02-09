@@ -1,6 +1,6 @@
 package com.bookstoragev2.bookstorage.controller;
 
-import com.bookstoragev2.bookstorage.UserRepository;
+import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
 import com.bookstoragev2.bookstorage.config.WithUser;
