@@ -33,8 +33,11 @@ include::{snippets}/users/me/http-request.adoc[]
 include::{snippets}/users/me/http-response.adoc[]
 include::{snippets}/users/me/response-body.adoc[]
 include::{snippets}/users/me/response-fields.adoc[]
-[[resources-user-login]]
+=== 실패(로그인을 안하고 요청시)
+include::{snippets}/auth/requiredLogin/http-response.adoc[]
+include::{snippets}/auth/requiredLogin/response-fields.adoc[]
 
+[[resources-user-login]]
 == 로그인
 === 요청
 include::{snippets}/auth/http-request.adoc[]

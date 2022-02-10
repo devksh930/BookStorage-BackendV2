@@ -2,6 +2,7 @@ package com.bookstoragev2.bookstorage.controller;
 
 import com.bookstoragev2.bookstorage.domain.RoleType;
 import com.bookstoragev2.bookstorage.domain.User;
+import com.bookstoragev2.bookstorage.error.GlobalExceptionHandler;
 import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -32,12 +34,14 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @IntergrationTestWithRestDocs
 public class UserControllerTest {
 
     @Autowired
     private WebApplicationContext context;
+
 
     private MockMvc mockMvc;
 
@@ -49,7 +53,12 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(documentationConfiguration(restDocumentation)).build();
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(documentationConfiguration(restDocumentation))
+                .apply(springSecurity())
+                .build();
+
     }
 
     @AfterEach
@@ -100,34 +109,7 @@ public class UserControllerTest {
                         getResponseFieldsSnippet()));
     }
 
-    @Test
-    @DisplayName("실패:이미 존재하는 회원으로 회원가입을 한다")
-    public void signUp_existUser() throws Exception {
-        UserSignUpDto signUp = new UserSignUpDto();
-        signUp.setUserId("testUser");
-        signUp.setPassword("password");
-        signUp.setNickname("닉네임");
-        signUp.setEmail("email@email.com");
-        User user = new User("testUSer", "email@eamil.com", "닉네임", "1234", RoleType.ROLE_USER, true);
-        userRepository.save(user);
 
-        ResultActions resultActions = mockMvc.perform(post("/users")
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding(StandardCharsets.UTF_8)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(signUp)));
-
-
-        resultActions.andExpect(
-                        MockMvcResultMatchers.status().isConflict())
-                .andDo(document("users/exist",
-                        ApiDocumentUtils.getDocumentResponse(),
-                        responseFields(
-                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("HTTP 상태코드"),
-                                fieldWithPath("code").type(JsonFieldType.STRING).description("에러번호"),
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("에러 사유")
-                        )));
-    }
 
     private ResponseFieldsSnippet getResponseFieldsSnippet() {
         return responseFields(

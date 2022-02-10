@@ -82,30 +82,4 @@ class AuthControllerTest {
                         ));
     }
 
-    @Test
-    @DisplayName("실패: 잘못된 아이디와 이메일로 로그인을 한다")
-    @WithUser("test@test.com")
-    public void login_fail() throws Exception {
-        UserLoginDto loginDto = new UserLoginDto();
-        loginDto.setEmail("test@test.com");
-        loginDto.setPassword("12345");
-
-        ResultActions resultActions = mockMvc.perform(post("/auth")
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding(StandardCharsets.UTF_8)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(loginDto)));
-
-        resultActions.andExpect(
-                        status().isBadRequest())
-                .andDo(
-                        document(
-                                "auth/fail",
-                                ApiDocumentUtils.getDocumentResponse(),
-                                responseFields(
-                                        fieldWithPath("status").type(JsonFieldType.NUMBER).description("HTTP 상태코드"),
-                                        fieldWithPath("code").type(JsonFieldType.STRING).description("에러번호"),
-                                        fieldWithPath("message").type(JsonFieldType.STRING).description("에러 사유"))));
-
-    }
 }
