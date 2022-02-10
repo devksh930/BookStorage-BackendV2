@@ -1,4 +1,4 @@
-package com.bookstoragev2.bookstorage;
+package com.bookstoragev2.bookstorage.user;
 
 import com.bookstoragev2.bookstorage.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByUserId(String userId);
 
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByUserId(String userId);
 }

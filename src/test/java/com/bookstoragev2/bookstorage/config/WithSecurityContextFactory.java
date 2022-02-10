@@ -1,6 +1,7 @@
 package com.bookstoragev2.bookstorage.config;
 
 import com.bookstoragev2.bookstorage.authentication.AuthService;
+import com.bookstoragev2.bookstorage.authentication.CustomUserDetailService;
 import com.bookstoragev2.bookstorage.user.UserService;
 import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class WithSecurityContextFactory implements org.springframework.security.test.context.support.WithSecurityContextFactory<WithUser> {
     private final UserService userService;
-    private final AuthService authService;
+    private final CustomUserDetailService userDetailService;
 
     @Override
     public SecurityContext createSecurityContext(WithUser withUser) {
@@ -26,7 +27,7 @@ public class WithSecurityContextFactory implements org.springframework.security.
         signUpDto.setNickname("test");
         userService.joinUser(signUpDto);
 
-        UserDetails userDetails = authService.loadUserByUsername(email);
+        UserDetails userDetails = userDetailService.loadUserByUsername(email);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authentication);

@@ -1,4 +1,4 @@
-package com.bookstoragev2.bookstorage;
+package com.bookstoragev2.bookstorage.user;
 
 import com.bookstoragev2.bookstorage.domain.Token;
 import org.springframework.data.repository.CrudRepository;

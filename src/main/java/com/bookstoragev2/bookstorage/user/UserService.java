@@ -1,8 +1,8 @@
 package com.bookstoragev2.bookstorage.user;
 
-import com.bookstoragev2.bookstorage.UserRepository;
 import com.bookstoragev2.bookstorage.domain.RoleType;
 import com.bookstoragev2.bookstorage.domain.User;
+import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;
 import com.bookstoragev2.bookstorage.user.dto.UserRequestDto;
 import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class UserService {
             User save = userRepository.save(user);
             return modelMapper.map(save, UserRequestDto.class);
         } else {
-            throw new RuntimeException("이미존재함");
+            throw new UserJoinExistException();
         }
     }
 
