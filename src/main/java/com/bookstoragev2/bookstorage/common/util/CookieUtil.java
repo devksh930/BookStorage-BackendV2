@@ -1,4 +1,4 @@
-package com.bookstoragev2.bookstorage.util;
+package com.bookstoragev2.bookstorage.common.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;

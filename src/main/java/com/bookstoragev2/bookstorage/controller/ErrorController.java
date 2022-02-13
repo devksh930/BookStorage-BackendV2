@@ -1,7 +1,8 @@
 package com.bookstoragev2.bookstorage.controller;
 
-import org.springframework.http.HttpStatus;
+import com.bookstoragev2.bookstorage.error.exception.CustomAuthenticationEntryPointException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,13 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/exception")
 public class ErrorController {
     @GetMapping("/entrypoint")
-    public ResponseEntity<String> authenticationEntryPoint() {
-
-        return new ResponseEntity("권한없음", HttpStatus.UNAUTHORIZED);
+    public ResponseEntity authenticationEntryPoint() {
+        throw new CustomAuthenticationEntryPointException();
     }
 
     @GetMapping("/accessdenied")
-    public ResponseEntity<String> accessDenied() {
-        return new ResponseEntity("권한없음", HttpStatus.FORBIDDEN);
+    public ResponseEntity accessDenied() {
+        throw new AccessDeniedException("");
     }
 }

@@ -42,4 +42,3 @@ out/
 /src/main/resources/application-dev.yml
 docker-compose.yml
 BOOT-INF
-gradle

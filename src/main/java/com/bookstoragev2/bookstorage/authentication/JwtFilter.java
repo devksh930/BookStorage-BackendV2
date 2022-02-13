@@ -1,11 +1,11 @@
 package com.bookstoragev2.bookstorage.authentication;
 
-import com.bookstoragev2.bookstorage.TokenRepository;
+import com.bookstoragev2.bookstorage.common.util.CookieUtil;
 import com.bookstoragev2.bookstorage.domain.Token;
-import com.bookstoragev2.bookstorage.util.CookieUtil;
+import com.bookstoragev2.bookstorage.domain.TokenType;
+import com.bookstoragev2.bookstorage.user.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.bookstoragev2.bookstorage.domain.TokenType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

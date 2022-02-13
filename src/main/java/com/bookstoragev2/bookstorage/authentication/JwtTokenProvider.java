@@ -1,5 +1,6 @@
 package com.bookstoragev2.bookstorage.authentication;
 
+import com.bookstoragev2.bookstorage.domain.TokenType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -7,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import com.bookstoragev2.bookstorage.domain.TokenType;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
