@@ -2,5 +2,5 @@ spring:
   profiles:
     default: "dev"
     group:
-      "dev": "dev, jwt"
-      "test": "test, jwt"
+      "dev": "dev, jwt, cors"
+      "test": "test, jwt, cors"

@@ -28,7 +28,7 @@ pipeline {
         }
 
         stage('gradlew Build Test') {
-            steps {
+            stedps {
                 sh './gradlew clean build'
             }
         }
