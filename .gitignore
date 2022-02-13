@@ -42,3 +42,8 @@ out/
 /src/main/resources/application-dev.yml
 docker-compose.yml
 BOOT-INF
+/src/main/resources/application-ssl.yml
+/keystore.p12
+/book-trustkeystore.pkcs12
+/keystore.cer
+/keystore.pkcs12

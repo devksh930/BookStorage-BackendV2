@@ -43,7 +43,7 @@ public class User {
 
     private boolean emailVerified = false;
 
-    @Column(length = 512, unique = true)
+    @Column(length = 512)
     private String profileImageUrl = "DEFAULT_IMAGE";
 
 
