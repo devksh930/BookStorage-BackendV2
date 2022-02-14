@@ -25,6 +25,8 @@ public class NaverApiClient {
     private String apiURL;
     @Value("${naver.bookSearchPath}")
     private String bookSearchPath;
+    @Value("${naver.bookDetailSearchPath}")
+    private String bookDetailSearchPath;
 
 
     private RequestEntity<Void> requestEntity(URI uri) {
@@ -50,6 +52,19 @@ public class NaverApiClient {
         log.info("Request API URL {}", uri);
 
         return restTemplate.exchange(requestEntity(uri), BookDto.class);
-
     }
+
+    public ResponseEntity<BookDto> getBookToIsbn(String isbn) {
+        log.info("requestQueryParam isbn: {}", isbn);
+
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(apiURL + bookDetailSearchPath)
+                .queryParam("d_isbn", isbn)
+                .encode()
+                .build()
+                .toUri();
+
+        log.info("Request API URL {}", uri);
+         return restTemplate.exchange(requestEntity(uri), BookDto.class);
+            }
 }
