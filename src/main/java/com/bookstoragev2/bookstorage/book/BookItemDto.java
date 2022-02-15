@@ -16,7 +16,7 @@ public class BookItemDto {
     private String price;
     private String discount;
     private String publisher;
-    private String pubDate;
+    private String pubdate;
     private String isbn;
     private String description;
 

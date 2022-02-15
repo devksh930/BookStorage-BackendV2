@@ -1,6 +1,7 @@
 package com.bookstoragev2.bookstorage.error;
 
 import com.bookstoragev2.bookstorage.error.exception.CustomAuthenticationEntryPointException;
+import com.bookstoragev2.bookstorage.error.exception.NotFoundBookDetail;
 import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,4 +42,13 @@ public class GlobalExceptionHandler {
         log.error("Handle UserJoinExistException ", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.USER_EXISTS_JOIN);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.USER_EXISTS_JOIN.getStatus()));
-    }}
+    }
+
+    // BOOK
+    @ExceptionHandler(NotFoundBookDetail.class)
+    protected ResponseEntity<ErrorResponse> handleBookDetailNotFound(NotFoundBookDetail e) {
+        log.error("Handle NotFoundBookDetail ", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.BOOK_DETAIL_NOTFOUND);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.BOOK_DETAIL_NOTFOUND.getStatus()));
+    }
+}

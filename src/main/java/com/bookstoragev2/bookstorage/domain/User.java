@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @EqualsAndHashCode(of = "id")
 public class User {
     @Id
@@ -41,18 +41,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    private boolean emailVerified = false;
+    private boolean emailVerified;
 
     @Column(length = 512)
     private String profileImageUrl = "DEFAULT_IMAGE";
 
 
-    public User(String userId, String email, String nickname, String password, RoleType roleType, boolean emailVerified) {
+    public User(String userId, String email, String nickname, String password, RoleType roleType) {
         this.userId = userId;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.roleType = roleType;
-        this.emailVerified = emailVerified;
+        this.emailVerified = false;
     }
 }
