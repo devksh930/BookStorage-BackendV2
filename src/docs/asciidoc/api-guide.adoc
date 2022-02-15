@@ -47,3 +47,26 @@ include::{snippets}/auth/http-response.adoc[]
 === 실패(잘못된 계정으로 로그인시)
 include::{snippets}/auth/fail/http-response.adoc[]
 include::{snippets}/auth/fail/response-fields.adoc[]
+
+
+[[resources]]
+= Book API
+
+[[resources-book-search]]
+== 책검색
+=== 요청
+include::{snippets}/book/http-request.adoc[]
+include::{snippets}/book/request-parameters.adoc[]
+=== 응답
+include::{snippets}/book/response-body.adoc[]
+include::{snippets}/book/response-fields.adoc[]
+
+[[resources-book-search-detail]]
+== 책 ISBN으로 검색
+=== 요청
+include::{snippets}/book/detail/http-request.adoc[]
+include::{snippets}/book/detail/path-parameters.adoc[]
+
+=== 응답
+include::{snippets}/book/detail/response-body.adoc[]
+include::{snippets}/book/detail/response-fields.adoc[]

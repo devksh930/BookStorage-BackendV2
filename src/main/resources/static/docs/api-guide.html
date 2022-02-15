@@ -467,6 +467,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_실패잘못된_계정으로_로그인시">실패(잘못된 계정으로 로그인시)</a></li>
 </ul>
 </li>
+<li><a href="#resources">Book API</a>
+<ul class="sectlevel1">
+<li><a href="#resources-book-search">책검색</a>
+<ul class="sectlevel2">
+<li><a href="#_요청_4">요청</a></li>
+<li><a href="#_응답_4">응답</a></li>
+</ul>
+</li>
+<li><a href="#resources-book-search-detail">책 ISBN으로 검색</a>
+<ul class="sectlevel2">
+<li><a href="#_요청_5">요청</a></li>
+<li><a href="#_응답_5">응답</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -534,13 +550,16 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 Content-Length: 145
 
 {
@@ -607,13 +626,16 @@ Content-Length: 145
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 409 Conflict
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 Content-Length: 141
 
 {
@@ -676,13 +698,16 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 Content-Length: 138
 
 {
@@ -749,13 +774,16 @@ Content-Length: 138
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 Content-Length: 92
 
 {
@@ -832,8 +860,8 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: ACCESS_TOKEN=rO0ABXQBO2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKQlEwTkZVMU5mVkU5TFJVNGlMQ0poZFhSb0lqb2lVazlNUlY5T1QxUmZRMFZTVkVsR1NVVkVJaXdpZFhObGNrbGtJam9pTkRSa09EVmpORE10TURrd05TMDBNamswTFRrd01XWXRNbVJoWlRFd05HWTRNRGRrSWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0pwWVhRaU9qRTJORFEzTkRVd05ERXNJbVY0Y0NJNk1UWTBORGM0T0RJME1YMC5xUU42TTRpenR1TmJYWkdIdDJRYmdjVnBTd25fUmVpZ2xHZmVNcFM5V19mU1NnTTJ1Z0pNY0xjaEozNWtLYW5kOC1hZ2pVQ0wyYXMzT3drUlo4Zm92UQ==; Path=/; Max-Age=43200; Expires=Sun, 13 Feb 2022 21:37:21 GMT
-Set-Cookie: REFRESH_TOKEN=rO0ABXQBF2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKU1JVWlNSVk5JWDFSUFMwVk9JaXdpZFhObGNrbGtJam9pTkRSa09EVmpORE10TURrd05TMDBNamswTFRrd01XWXRNbVJoWlRFd05HWTRNRGRrSWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0psZUhBaU9qRTJORGN6TXpjd05ERXNJbWxoZENJNk1UWTBORGMwTlRBME1YMC5FNEVaTmhnZC1VZ0pWZXlTdlFqbThBZUJUQ3RLTHRJN2VOUXE1UGIxNy1IczI0QmV2U05sYkFGTzV3bkRBLVZyS2RqYUlrNllnMG10Q2U4TVNiZk9wdw==; Path=/; Max-Age=2592000; Expires=Tue, 15 Mar 2022 09:37:21 GMT
+Set-Cookie: ACCESS_TOKEN=rO0ABXQBO2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKQlEwTkZVMU5mVkU5TFJVNGlMQ0poZFhSb0lqb2lVazlNUlY5T1QxUmZRMFZTVkVsR1NVVkVJaXdpZFhObGNrbGtJam9pWWprNU5qY3paakl0T1RsbE5DMDBZVE16TFdJMU9EVXRZMkV3WkRBNE5UbG1ZalUzSWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0pwWVhRaU9qRTJORFE1TXpnNU1UUXNJbVY0Y0NJNk1UWTBORGs0TWpFeE5IMC5RRU9ua0U4MUxXanRVcVFMbDQwd25EQkN4U1RlVkpKZ051Tnp4SjhYM0FUZWpzMUI3cFFSYXkwR0dzdWcwSnNGMXZ6SVNGYWhKcUdrenBGOWJYek9WUQ==; Path=/; Max-Age=43200; Expires=Wed, 16 Feb 2022 03:28:34 GMT; Secure; HttpOnly
+Set-Cookie: REFRESH_TOKEN=rO0ABXQBF2V5SmhiR2NpT2lKSVV6VXhNaUo5LmV5SnpkV0lpT2lKU1JVWlNSVk5JWDFSUFMwVk9JaXdpZFhObGNrbGtJam9pWWprNU5qY3paakl0T1RsbE5DMDBZVE16TFdJMU9EVXRZMkV3WkRBNE5UbG1ZalUzSWl3aWFYTnpJam9pYkc5amJHRm9iM04wT2pnd09EQWlMQ0psZUhBaU9qRTJORGMxTXpBNU1UUXNJbWxoZENJNk1UWTBORGt6T0RreE5IMC5ub0VhQzBGQ1VTaWJ5Uld5czdPTlpGbXVBZnA5Q3pubFJNNGhzUGdOdXdBZ0xEcTFQQ01BSkFjVlJ0bDZzd3BPOVZhS25rbWlUVEFSQjBHTnhPS1FOQQ==; Path=/; Max-Age=2592000; Expires=Thu, 17 Mar 2022 15:28:34 GMT; Secure; HttpOnly
 Content-Type: application/json
 Content-Length: 41
 
@@ -849,13 +877,16 @@ Content-Length: 41
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 Content-Length: 104
 
 {
@@ -899,11 +930,411 @@ Content-Length: 104
 </div>
 </div>
 </div>
+<h1 id="resources" class="sect0"><a class="link" href="#resources">Book API</a></h1>
+<div class="sect1">
+<h2 id="resources-book-search"><a class="link" href="#resources-book-search">책검색</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /books?query=%EC%A0%84%EB%AC%B8%EA%B0%80%EB%A5%BC%20%EC%9C%84%ED%95%9C&amp;start=1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색할 키워드(예: 저자, 책재목 등등)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>start</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">시작할 요소의 갯수 1부터 시작</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_응답_4"><a class="link" href="#_응답_4">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "success" : true,
+  "result" : {
+    "lastBuildDate" : "Wed, 16 Feb 2022 00:28:34 +0900",
+    "total" : 27807,
+    "start" : 1,
+    "display" : 10,
+    "items" : [ {
+      "title" : "ADHD &lt;b&gt;전문가를 위한&lt;/b&gt; 치료 지침서",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=16263141",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/162/631/16263141.jpg?type=m1&amp;udate=20211207",
+      "author" : "이성직",
+      "price" : "12000",
+      "discount" : "11520",
+      "publisher" : "학지사",
+      "pubdate" : "20200215",
+      "isbn" : "899972025X 9788999720253",
+      "description" : "▶ 이 책은 심리치료일반을 다룬 이론서입니다. 심리치료일반의 기초적이고 전반적인 내용을 학습할 수 있습니다."
+    }, {
+      "title" : "&lt;b&gt;전문가를 위한&lt;/b&gt; C++ (C++17, 병렬 알고리즘, 파일시스템, 제네릭 람다)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=15342656",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/153/426/15342656.jpg?type=m1&amp;udate=20201028",
+      "author" : "마크 그레고리",
+      "price" : "68000",
+      "discount" : "61200",
+      "publisher" : "한빛미디어",
+      "pubdate" : "20190820",
+      "isbn" : "1162242086 9791162242087",
+      "description" : "『&lt;b&gt;전문가를 위한&lt;/b&gt; C++(개정4판)』은 새로 추가된 기능과 관련 도구를 비롯해 C++에 대한 모든 내용을 코드와 솔루션 위주로 소개한다. 이 책은 실전 프로그래밍에 적용할 수 있는 현실적인 기법을 다양하게 소개하며 C++를 더 깊이 이해하려는 프로그래머에게 적합하다."
+    }, {
+      "title" : "&lt;b&gt;전문가를 위한&lt;/b&gt; DBT 다이어렉티컬 행동치료 (감정조절장애와 경계선 성격장애 치료를 &lt;b&gt;위한&lt;/b&gt; 매뉴얼)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=14465277",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/144/652/14465277.jpg?type=m1&amp;udate=20190125",
+      "author" : "Marsha M. Linehan",
+      "price" : "30000",
+      "discount" : "27000",
+      "publisher" : "더트리그룹",
+      "pubdate" : "20181016",
+      "isbn" : "899678396X 9788996783961",
+      "description" : "&lt;b&gt;전문가를 위한&lt;/b&gt; DBT 다이어렉티컬 행동치료 개정판은 마샤 리네한 박사의 경험과 기존의 스킬을 적용한 연구 그리고 감정과 감정조절, 고통감내, 마인드풀니스에 대한 광범위한 연구뿐만 아니라 사회과학 분야에서 새롭게 발견된 것들, 그리고 인지행동 패러다임 안에서 개발된 새로운 치료전략들의 산물이라 할... "
+    }, {
+      "title" : "&lt;b&gt;전문가를 위한&lt;/b&gt; 스프링 5 (스프링을 깊이 있게, 철저하게!)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=15431217",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/154/312/15431217.jpg?type=m1&amp;udate=20191031",
+      "author" : "율리아나 코스미나|롭 해롭|크리스 샤이퍼|클라렌스 호",
+      "price" : "60000",
+      "discount" : "54000",
+      "publisher" : "길벗",
+      "pubdate" : "20190917",
+      "isbn" : "1160508860 9791160508864",
+      "description" : "스프링 개발자와 가장 오랜 시간을 함께한 스프링 중급서!\n\n1판이 출간된 이후 5판까지 꾸준히 개정되며 스프링 중급서의 위치를 지켜왔다. 스프링 입문자가 아니라 실제로 현업에서 스프링을 개발하면서 알아야 하는 깊이 있는 정보를 체계적으로 정리하고 전달해왔다. 스프링의 기초와 핵심 개념부터... "
+    }, {
+      "title" : "지적/ 측량/ 토지보상/ 관로관리 &lt;b&gt;전문가를 위한&lt;/b&gt; 스마트한 QGIS 활용서 (지적 / 측량 / 토지보상 / 관로관리 &lt;b&gt;전문가를 위한&lt;/b&gt;)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=16374805",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/163/748/16374805.jpg?type=m1&amp;udate=20210509",
+      "author" : "문승주",
+      "price" : "16000",
+      "discount" : "14400",
+      "publisher" : "예문사",
+      "pubdate" : "20200601",
+      "isbn" : "8927436121 9788927436126",
+      "description" : "QGIS로 공간정보를 맘껏 활용하자!역학조사의 선구자라 불리는 존 스노우는 런던의 지도 위에 콜레라 사망자를 표기하여 콜레라의 확산을 막는 데 크게 이바지하였다. 최근에도 사스, 메르스, 현재의 코로나19에 이르기까지 많은 전염병의 확진자의 동선 및 확산경로 파악을 위해 지도를 많이 활용한다.... "
+    }, {
+      "title" : "임상&lt;b&gt;전문가를 위한&lt;/b&gt; 정서장애와 주의 (근거 기반 자기조절집행기능(SREF)모델 및 적용)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=21359403",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/213/594/21359403.jpg?type=m1&amp;udate=20211222",
+      "author" : "Adrian Wells",
+      "price" : "25000",
+      "discount" : "25000",
+      "publisher" : "학지사",
+      "pubdate" : "20211213",
+      "isbn" : "8999725480 9788999725487",
+      "description" : "이 책은 임상&lt;b&gt;전문가를 위한&lt;/b&gt; 정서장애와 주의에 대해 다룬 도서입니다. 기초적이고 전반적인 내용을 확인할 수 있도록 구성했습니다."
+    }, {
+      "title" : "학습장애 학생교육(&lt;b&gt;전문가를 위한&lt;/b&gt;) (이론과 실제)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=16276729",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/162/767/16276729.jpg?type=m1&amp;udate=20200229",
+      "author" : "정대영",
+      "price" : "18000",
+      "discount" : "17460",
+      "publisher" : "시그마프레스",
+      "pubdate" : "20200225",
+      "isbn" : "1162262281 9791162262283",
+      "description" : "이 책은 이러한 국내외적 상황을 고려하여 학습장애의 개념 정의, 유형, 진단평가와 특수교육 대상자 선정, 교수 전략 등에 관한 연구 정보와 지식을 종합하고 다듬어 &lt;b&gt;전문가&lt;/b&gt;와 예비&lt;b&gt;전문가&lt;/b&gt;들이 학습장애를 바르게 이해하고 지도할 수 있도록 돕고자 하였다. \n\n이 책의 주요 특징\n▲ 학습장애 분야의 개념과 특성... "
+    }, {
+      "title" : "금융 &lt;b&gt;전문가를 위한&lt;/b&gt; 머신러닝 알고리즘 (파이썬으로 배우는 금융 머신러닝 알고리즘의 원리와 활용)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=17693388",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/176/933/17693388.jpg?type=m1&amp;udate=20201225",
+      "author" : "얀네스 클라스",
+      "price" : "35000",
+      "discount" : "31500",
+      "publisher" : "위키북스",
+      "pubdate" : "20210107",
+      "isbn" : "115839232X 9791158392321",
+      "description" : "파이썬 코드를 사용해 금융 전문가용 인공지능(머신러닝과 딥러닝 포함) 영역으로 나아가기 위한 안내서!《금융 &lt;b&gt;전문가를 위한&lt;/b&gt; 머신러닝 알고리즘》에서는 새롭게 발전한 머신러닝 기술을 탐구하고, 보험 처리나 이체 및 대출 관리를 비롯하여 다양한 금융 업무에 이 기술을 어떤 식으로 적용할 수 있을지를... "
+    }, {
+      "title" : "&lt;b&gt;전문가를 위한&lt;/b&gt; 건설안전혁신론",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=21159662",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/211/596/21159662.jpg?type=m1&amp;udate=20211023",
+      "author" : "안홍섭",
+      "price" : "28000",
+      "discount" : "25200",
+      "publisher" : "안전정보",
+      "pubdate" : "20210825",
+      "isbn" : "1197547908 9791197547904",
+      "description" : "규명하고, 검증된 사고방지의 원리와 원칙을 한시적·유기적 속성의 건설사업에 맞게 적용하는 방안을 제시하였다. 제시된 방안은 건설안전 정책과 실무 모두에서 갖가지 장애로 난관을 겪고 있는 &lt;b&gt;전문가&lt;/b&gt;뿐만 아니라 공공과 민간의 경영자와 실무자에게도 고민을 원천적으로 해소하는 열쇠가 될 수 있을 것이다"
+    }, {
+      "title" : "스포츠 &lt;b&gt;전문가를 위한&lt;/b&gt; 필라테스 (퍼포먼스와 회복을 &lt;b&gt;위한&lt;/b&gt; 통합적인 접근법)",
+      "link" : "http://book.naver.com/bookdb/book_detail.php?bid=17849902",
+      "image" : "https://bookthumb-phinf.pstatic.net/cover/178/499/17849902.jpg?type=m1&amp;udate=20210210",
+      "author" : "Amy Lademann|Rick Lademann",
+      "price" : "25000",
+      "discount" : "24500",
+      "publisher" : "영문출판사",
+      "pubdate" : "20210222",
+      "isbn" : "897224497X 9788972244974",
+      "description" : "『스포츠 &lt;b&gt;전문가를 위한&lt;/b&gt; 필라테스』는 〈여러분의 몸을 위한 필라테스 컨디셔닝〉, 〈컨디셔닝 운동〉, 〈운동〉을 수록하고 있는 책이다."
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호출된 결과값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.lastBuildDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.total</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색결과 총 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.start</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색결과에서 시작 요소(1부터시작)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.display</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">보여지는 갯수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색된 책 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].link</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 링크</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 이미지링크</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].author</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].discount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">할인가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].publisher</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출판사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].pubdate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출시일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].isbn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isbn</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.items[].description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resources-book-search-detail"><a class="link" href="#resources-book-search-detail">책 ISBN으로 검색</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /books/9791160506815 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /books/{isbn}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isbn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 ISBN</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_응답_5"><a class="link" href="#_응답_5">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "success" : true,
+  "result" : {
+    "title" : "스프링 마이크로서비스 코딩 공작소 (Spring Microservices in Action)",
+    "link" : "http://book.naver.com/bookdb/book_detail.php?bid=14371209",
+    "image" : "https://bookthumb-phinf.pstatic.net/cover/143/712/14371209.jpg?type=m1&amp;udate=20210509",
+    "author" : "존 카넬",
+    "price" : "33000",
+    "discount" : "29700",
+    "publisher" : "길벗",
+    "pubdate" : "20181221",
+    "isbn" : "1160506817 9791160506815",
+    "description" : "이론은 탄탄하게, 실습은 실무에 가깝게! &amp;#x0D;스프링 부트 2와 스프링 클라우드 2로 구현하며 배우는 컨테이너 기반의 마이크로서비스 &amp;#x0D;&amp;#x0D;마이크로서비스에서는 배포가 중요한 이슈다. 스프링 클라우드를 사용하면 마이크로서비스의 빌드와 배포를 최소화할 수 있고, 이런 의미에서 스프링 부트와... "
+  }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호출된 결과값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.link</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 링크</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 이미지링크</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.author</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.discount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">할인가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.publisher</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출판사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pubdate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출시일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.isbn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isbn</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-02-10 20:22:39 +0900
+Last updated 2022-02-16 00:28:11 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

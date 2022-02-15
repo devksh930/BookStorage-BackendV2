@@ -71,7 +71,7 @@ public class GlobalExceptionTest {
         signUp.setPassword("password");
         signUp.setNickname("닉네임");
         signUp.setEmail("email@email.com");
-        User user = new User("testUSer", "email@eamil.com", "닉네임", "1234", RoleType.ROLE_USER, true);
+        User user = new User("testUSer", "email@eamil.com", "닉네임", "1234", RoleType.ROLE_USER);
         userRepository.save(user);
 
         ResultActions resultActions = mockMvc
