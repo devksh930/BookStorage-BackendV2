@@ -1,9 +1,9 @@
 package com.bookstoragev2.bookstorage.controller;
 
-import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
 import com.bookstoragev2.bookstorage.config.WithUser;
+import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.user.dto.UserLoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,8 +26,6 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.responseH
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntergrationTestWithRestDocs

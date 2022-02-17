@@ -1,26 +1,21 @@
 package com.bookstoragev2.bookstorage.controller;
 
-import com.bookstoragev2.bookstorage.domain.RoleType;
-import com.bookstoragev2.bookstorage.domain.User;
-import com.bookstoragev2.bookstorage.error.GlobalExceptionHandler;
-import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
 import com.bookstoragev2.bookstorage.config.WithUser;
+import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
