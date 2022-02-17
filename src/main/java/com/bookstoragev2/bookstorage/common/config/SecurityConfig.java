@@ -43,23 +43,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .headers().frameOptions().sameOrigin()
                 .and()
-                .cors()
+                    .cors()
                 .and()
-                .csrf().disable()
-                .httpBasic().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .csrf().disable()
+                    .httpBasic().disable()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/users").permitAll()
-                .antMatchers("/auth").permitAll()
-                .antMatchers("/users/me").authenticated()
+                    .authorizeRequests()
+                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                        .antMatchers("/users").permitAll()
+                        .antMatchers("/auth").permitAll()
+                        .antMatchers("/users/me").authenticated()
                 .and()
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPointHandler)
-                .accessDeniedHandler(accessDeniedHandler);
+                    .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                    .exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPointHandler)
+                    .accessDeniedHandler(accessDeniedHandler);
     }
 
     @Bean

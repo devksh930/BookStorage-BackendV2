@@ -1,6 +1,5 @@
 package com.bookstoragev2.bookstorage.config;
 
-import com.bookstoragev2.bookstorage.authentication.AuthService;
 import com.bookstoragev2.bookstorage.authentication.CustomUserDetailService;
 import com.bookstoragev2.bookstorage.user.UserService;
 import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;

@@ -8,6 +8,11 @@ public class ErrorResponse {
     private String code;
     private String message;
 
+    public ErrorResponse(int status, String code, String message) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+    }
 
     public ErrorResponse(ErrorCode errorCode) {
         this.status = errorCode.getStatus();
