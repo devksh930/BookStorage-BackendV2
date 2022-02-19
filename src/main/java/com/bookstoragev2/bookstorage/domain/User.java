@@ -1,6 +1,5 @@
 package com.bookstoragev2.bookstorage.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +12,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(columnDefinition = "BINARY(16)")

@@ -1,6 +1,7 @@
 package com.bookstoragev2.bookstorage.error;
 
 import com.bookstoragev2.bookstorage.common.BookAPIBadRequest;
+import com.bookstoragev2.bookstorage.error.exception.BookStorageExistException;
 import com.bookstoragev2.bookstorage.error.exception.CustomAuthenticationEntryPointException;
 import com.bookstoragev2.bookstorage.error.exception.NotFoundBookDetail;
 import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;
@@ -57,5 +58,13 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleBookAPIBadRequest(BookAPIBadRequest e) {
         log.error("Handle BookAPIBadRequest", e);
         return new ResponseEntity<>(e.getErrorResponse(), HttpStatus.BAD_REQUEST);
+    }
+
+    // BookStorage
+    @ExceptionHandler(BookStorageExistException.class)
+    protected ResponseEntity<ErrorResponse> handleBookStorageExistException(BookStorageExistException e) {
+        log.error("Handle BookStorageExistException ", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.BOOKSTORAGE_EXISTS);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.BOOKSTORAGE_EXISTS.getStatus()));
     }
 }
