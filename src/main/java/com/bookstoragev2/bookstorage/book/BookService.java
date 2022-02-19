@@ -23,10 +23,13 @@ public class BookService {
     }
 
     public BookItemDto searchBookDetail(String isbn) {
-        Book book = bookRepository.findByIsbnLike(isbn)
-                .orElseGet(() -> addBook(findIsbnWithAPI(isbn)));
-
+        Book book = apiSearchAndBookAdd(isbn);
         return modelMapper.map(book, BookItemDto.class);
+    }
+
+    public Book apiSearchAndBookAdd(String isbn) {
+        return bookRepository.findByIsbnLike(isbn)
+                .orElseGet(() -> addBook(findIsbnWithAPI(isbn)));
     }
 
     private Book addBook(BookDto bookDto) {
@@ -40,7 +43,7 @@ public class BookService {
         return itemSizeCheck(Objects.requireNonNull(body));
     }
 
-    public BookDto itemSizeCheck(BookDto bookDto) {
+    private BookDto itemSizeCheck(BookDto bookDto) {
         List<BookItemDto> items = bookDto.getItems();
         if (items.isEmpty() || items == null) {
             throw new NotFoundBookDetail();

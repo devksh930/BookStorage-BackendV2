@@ -104,8 +104,6 @@ public class UserControllerTest {
                         getResponseFieldsSnippet()));
     }
 
-
-
     private ResponseFieldsSnippet getResponseFieldsSnippet() {
         return responseFields(
                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
