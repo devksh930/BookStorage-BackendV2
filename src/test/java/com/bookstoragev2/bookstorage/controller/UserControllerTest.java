@@ -1,15 +1,14 @@
 package com.bookstoragev2.bookstorage.controller;
 
+import com.bookstoragev2.bookstorage.bookstorage.dto.BookStorageAddDto;
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
 import com.bookstoragev2.bookstorage.config.WithUser;
+import com.bookstoragev2.bookstorage.domain.BookReadType;
 import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.user.dto.UserSignUpDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
@@ -30,6 +30,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntergrationTestWithRestDocs
 public class UserControllerTest {
@@ -62,6 +64,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Order(1)
     @DisplayName("성공:회원가입을 한다")
     public void signUp() throws Exception {
         UserSignUpDto signUp = new UserSignUpDto();
@@ -78,7 +81,7 @@ public class UserControllerTest {
 
 
         resultActions.andExpect(
-                        MockMvcResultMatchers.status().isCreated())
+                        status().isCreated())
                 .andDo(document("users",
                         ApiDocumentUtils.getDocumentRequest(),
                         ApiDocumentUtils.getDocumentResponse(),
@@ -89,6 +92,7 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("성공:현재 로그인한 유저의 정보를 가져온다")
+    @Order(2)
     @WithUser("test@test.com")
     public void getLoginUserinfo() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/users/me")
@@ -98,13 +102,93 @@ public class UserControllerTest {
 
 
         resultActions.andExpect(
-                        MockMvcResultMatchers.status().isOk())
+                        status().isOk())
                 .andDo(document("users/me",
                         ApiDocumentUtils.getDocumentResponse(),
                         getResponseFieldsSnippet()));
     }
 
+    @Test
+    @DisplayName("성공:내 서재에 책을 등록한다.")
+    @WithUser("test@test.com")
+    @Order(3)
+    @Transactional
+    public void addBookstorage() throws Exception {
+        BookStorageAddDto bookStorageAddDto = new BookStorageAddDto();
+        bookStorageAddDto.setIsbn("9788993827446");
+        bookStorageAddDto.setReadType(BookReadType.READ);
+        ResultActions resultActions = mockMvc.perform(post("/users/books")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(this.objectMapper.writeValueAsString(bookStorageAddDto))
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isCreated())
+                .andDo(document("users/book/add",
+                        ApiDocumentUtils.getDocumentRequest(),
+                        ApiDocumentUtils.getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
+                                fieldWithPath("result.id").type(JsonFieldType.NUMBER).description("서재 id"),
+                                fieldWithPath("result.title").type(JsonFieldType.STRING).description("책의 제목"),
+                                fieldWithPath("result.link").type(JsonFieldType.STRING).description("책의 링크"),
+                                fieldWithPath("result.image").type(JsonFieldType.STRING).description("책의 이미지링크"),
+                                fieldWithPath("result.author").type(JsonFieldType.STRING).description("저자"),
+                                fieldWithPath("result.publisher").type(JsonFieldType.STRING).description("출판사"),
+                                fieldWithPath("result.isbn").type(JsonFieldType.STRING).description("isbn"),
+                                fieldWithPath("result.createdDate").type(JsonFieldType.STRING).description("서재 추가 날짜"),
+                                fieldWithPath("result.modifiedDate").type(JsonFieldType.STRING).description("서재 수정 날짜")),
+
+                        requestFields(
+                                fieldWithPath("isbn").type(JsonFieldType.STRING).description("isbn"),
+                                fieldWithPath("readType").type(JsonFieldType.STRING).description("책읽음 여부(\"READ\",\"READING\",\"NOT_READ\")")
+                        )));
+
+    }
+
+    @Test
+    @DisplayName("성공:내 서재에 책을 가져온다.")
+    @WithUser("test@test.com")
+    @Order(4)
+    @Transactional
+    public void getBookStorage() throws Exception {
+        BookStorageAddDto bookStorageAddDto = new BookStorageAddDto();
+        bookStorageAddDto.setIsbn("9788993827446");
+        bookStorageAddDto.setReadType(BookReadType.READ);
+        mockMvc.perform(post("/users/books")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(this.objectMapper.writeValueAsString(bookStorageAddDto))
+                .contentType(MediaType.APPLICATION_JSON));
+
+
+        ResultActions resultActions = mockMvc.perform(get("/users/books")
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isOk())
+                .andDo(document("users/book/get",
+                        ApiDocumentUtils.getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
+                                fieldWithPath("result").type(JsonFieldType.ARRAY).description("결과"),
+                                fieldWithPath("result.[].id").type(JsonFieldType.NUMBER).description("서재 id"),
+                                fieldWithPath("result.[].title").type(JsonFieldType.STRING).description("책의 제목"),
+                                fieldWithPath("result.[].link").type(JsonFieldType.STRING).description("책의 링크"),
+                                fieldWithPath("result.[].image").type(JsonFieldType.STRING).description("책의 이미지링크"),
+                                fieldWithPath("result.[].author").type(JsonFieldType.STRING).description("저자"),
+                                fieldWithPath("result.[].publisher").type(JsonFieldType.STRING).description("출판사"),
+                                fieldWithPath("result.[].isbn").type(JsonFieldType.STRING).description("isbn"),
+                                fieldWithPath("result.[].createdDate").type(JsonFieldType.STRING).description("서재 추가 날짜"),
+                                fieldWithPath("result.[].modifiedDate").type(JsonFieldType.STRING).description("서재 수정 날짜"))
+                        ));
+
+
+    }
+
     private ResponseFieldsSnippet getResponseFieldsSnippet() {
+
         return responseFields(
                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
                 fieldWithPath("result.nickname").type(JsonFieldType.STRING).description("닉네임"),
