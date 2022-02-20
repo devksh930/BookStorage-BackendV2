@@ -1,6 +1,8 @@
 package com.bookstoragev2.bookstorage.authentication;
 
+import com.bookstoragev2.bookstorage.common.util.CookieUtil;
 import com.bookstoragev2.bookstorage.domain.Token;
+import com.bookstoragev2.bookstorage.domain.TokenType;
 import com.bookstoragev2.bookstorage.user.TokenRepository;
 import com.bookstoragev2.bookstorage.user.dto.TokenDto;
 import com.bookstoragev2.bookstorage.user.dto.UserLoginDto;
@@ -12,6 +14,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -60,6 +66,13 @@ public class AuthService {
 
     }
 
+
+    public void logout(HttpServletRequest request, HttpServletResponse response, UUID id) {
+        CookieUtil.deleteCookie(request,response,TokenType.ACCESS_TOKEN.name());
+        CookieUtil.deleteCookie(request,response,TokenType.REFRESH_TOKEN.name());
+        tokenRepository.deleteById(id);
+    }
+
     private Token generateRefreshToken(Authentication authentication) {
         Token token = new Token();
         token.setId(authentication.getName());
@@ -68,6 +81,5 @@ public class AuthService {
         Token save = tokenRepository.save(token);
         return save;
     }
-
 
 }
