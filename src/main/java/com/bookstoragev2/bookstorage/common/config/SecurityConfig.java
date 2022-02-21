@@ -7,6 +7,7 @@ import com.bookstoragev2.bookstorage.authentication.JwtFilter;
 import com.bookstoragev2.bookstorage.common.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -53,7 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .antMatchers("/users").permitAll()
-                        .antMatchers("/auth").permitAll()
+                        .antMatchers("/users/books").authenticated()
+                        .antMatchers(HttpMethod.POST,"/auth").permitAll()
+                        .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
                         .antMatchers("/users/me").authenticated()
                 .and()
                     .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
