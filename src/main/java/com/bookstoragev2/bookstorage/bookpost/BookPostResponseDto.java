@@ -1,0 +1,34 @@
+package com.bookstoragev2.bookstorage.bookpost;
+
+import com.bookstoragev2.bookstorage.domain.BookPost;
+import com.bookstoragev2.bookstorage.domain.BookPostType;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class BookPostResponseDto {
+    private Long id;
+
+    private String title;
+
+    private String writer;
+
+    private String content;
+
+    private BookPostType bookPostType;
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime modifiedDate;
+
+    public BookPostResponseDto(BookPost bookPost) {
+        this.id = bookPost.getId();
+        this.title = bookPost.getTitle();
+        this.writer = bookPost.getBookStorage().getUser().getNickname();
+        this.content = bookPost.getContent();
+        this.bookPostType = bookPost.getBookPostType();
+        this.createDate = bookPost.getCreatedDate();
+        this.modifiedDate = bookPost.getModifiedDate();
+    }
+}

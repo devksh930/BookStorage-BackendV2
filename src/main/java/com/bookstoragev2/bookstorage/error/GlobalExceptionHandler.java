@@ -2,7 +2,6 @@ package com.bookstoragev2.bookstorage.error;
 
 import com.bookstoragev2.bookstorage.common.BookAPIBadRequest;
 import com.bookstoragev2.bookstorage.error.exception.BookStorageExistException;
-import com.bookstoragev2.bookstorage.error.exception.CustomAuthenticationEntryPointException;
 import com.bookstoragev2.bookstorage.error.exception.NotFoundBookDetail;
 import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;
 import lombok.extern.slf4j.Slf4j;

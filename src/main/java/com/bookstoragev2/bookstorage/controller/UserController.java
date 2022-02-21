@@ -1,6 +1,8 @@
 package com.bookstoragev2.bookstorage.controller;
 
 import com.bookstoragev2.bookstorage.authentication.CurrentUser;
+import com.bookstoragev2.bookstorage.bookpost.BookPostResponseDto;
+import com.bookstoragev2.bookstorage.bookpost.BookPostService;
 import com.bookstoragev2.bookstorage.bookstorage.BookStorageService;
 import com.bookstoragev2.bookstorage.bookstorage.dto.BookStorageAddDto;
 import com.bookstoragev2.bookstorage.bookstorage.dto.BookStorageResponseDto;
@@ -27,6 +29,7 @@ public class UserController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final BookStorageService bookStorageService;
+    private final BookPostService bookPostService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,5 +51,10 @@ public class UserController {
     @GetMapping("/books")
     public ApiResult<List<BookStorageResponseDto>> getBookStorage(@CurrentUser User user) {
         return ApiUtils.success(bookStorageService.getBookStorage(user));
+    }
+
+    @GetMapping("/bookposts")
+    public ApiResult<List<BookPostResponseDto>> getBookPostWithCurrentUser(@CurrentUser User user) {
+        return ApiUtils.success(bookPostService.getBookPostWithCurrentUser(user));
     }
 }
