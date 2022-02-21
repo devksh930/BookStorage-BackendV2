@@ -1,6 +1,5 @@
 package com.bookstoragev2.bookstorage.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +10,10 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(columnDefinition = "BINARY(16)")
@@ -41,18 +39,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    private boolean emailVerified = false;
+    private boolean emailVerified;
 
-    @Column(length = 512, unique = true)
+    @Column(length = 512)
     private String profileImageUrl = "DEFAULT_IMAGE";
 
 
-    public User(String userId, String email, String nickname, String password, RoleType roleType, boolean emailVerified) {
+    public User(String userId, String email, String nickname, String password, RoleType roleType) {
         this.userId = userId;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.roleType = roleType;
-        this.emailVerified = emailVerified;
+        this.emailVerified = false;
     }
 }

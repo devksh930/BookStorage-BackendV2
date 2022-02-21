@@ -10,11 +10,11 @@ import org.springframework.data.redis.core.TimeToLive;
 
 import java.util.concurrent.TimeUnit;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @RedisHash("Token")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Token {
     @Id
     private String id;

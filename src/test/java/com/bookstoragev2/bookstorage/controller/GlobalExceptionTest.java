@@ -71,7 +71,7 @@ public class GlobalExceptionTest {
         signUp.setPassword("password");
         signUp.setNickname("닉네임");
         signUp.setEmail("email@email.com");
-        User user = new User("testUSer", "email@eamil.com", "닉네임", "1234", RoleType.ROLE_USER, true);
+        User user = new User("testUSer", "email@eamil.com", "닉네임", "1234", RoleType.ROLE_USER);
         userRepository.save(user);
 
         ResultActions resultActions = mockMvc
@@ -116,14 +116,21 @@ public class GlobalExceptionTest {
     @Test
     @DisplayName("실패:현재 로그인한 유저의 정보를 가져온다 redirect")
     public void getLoginUserinfo() throws Exception {
-        mockMvc.perform(get("/users/me").accept(MediaType.APPLICATION_JSON).characterEncoding(StandardCharsets.UTF_8).contentType(MediaType.APPLICATION_JSON)).andExpect(redirectedUrl("/exception/entrypoint"));
+        mockMvc.perform(get("/users/me")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     @DisplayName("AuthenticationEntrypoint exception 테스트")
     public void authenticationEntryPointException() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/exception/entrypoint").accept(MediaType.APPLICATION_JSON).characterEncoding(StandardCharsets.UTF_8).contentType(MediaType.APPLICATION_JSON));
-
+        ResultActions resultActions = mockMvc.perform(get("/users/me")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
         resultActions
                 .andExpect(status().isUnauthorized())
                 .andDo(document("auth/requiredLogin",
