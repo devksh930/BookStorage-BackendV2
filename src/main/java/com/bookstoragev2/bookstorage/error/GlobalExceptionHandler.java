@@ -24,13 +24,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
     }
 
-    @ExceptionHandler(CustomAuthenticationEntryPointException.class)
-    protected ResponseEntity<ErrorResponse> handleAuthenticationException(CustomAuthenticationEntryPointException e) {
-        log.error("Handle AuthenticationException ", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_AUTHENTICATION_ENTRYPOINT);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_AUTHENTICATION_ENTRYPOINT.getStatus()));
-    }
-
     //    User
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleAuthenticationException(BadCredentialsException e) {
