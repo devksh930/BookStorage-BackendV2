@@ -67,8 +67,6 @@ include::{snippets}/users/book/get/http-request.adoc[]
 include::{snippets}/users/book/get/http-response.adoc[]
 include::{snippets}/users/book/get/response-fields.adoc[]
 
-
-
 [[resources]]
 = Book API
 
@@ -90,3 +88,51 @@ include::{snippets}/book/detail/path-parameters.adoc[]
 === 응답
 include::{snippets}/book/detail/response-body.adoc[]
 include::{snippets}/book/detail/response-fields.adoc[]
+
+[[resources]]
+= BookPost API
+[[resources-bookpost-post]]
+== 게시글등록
+=== 요청
+include::{snippets}/bookpost/add/http-request.adoc[]
+include::{snippets}/bookpost/add/path-parameters.adoc[]
+include::{snippets}/bookpost/add/request-fields.adoc[]
+=== 응답
+include::{snippets}/bookpost/add/response-body.adoc[]
+include::{snippets}/bookpost/add/response-fields.adoc[]
+
+[[resources-bookpost-patch]]
+== 게시글수정
+=== 요청
+include::{snippets}/bookpost/modify/http-request.adoc[]
+include::{snippets}/bookpost/modify/path-parameters.adoc[]
+include::{snippets}/bookpost/modify/request-fields.adoc[]
+=== 응답
+include::{snippets}/bookpost/modify/response-body.adoc[]
+include::{snippets}/bookpost/modify/response-fields.adoc[]
+
+[[resources-bookpost-getDetail]]
+== 게시글 상세조회
+=== 요청
+include::{snippets}/bookpost/getdetail/http-request.adoc[]
+include::{snippets}/bookpost/getdetail/path-parameters.adoc[]
+=== 응답
+include::{snippets}/bookpost/getdetail/response-body.adoc[]
+include::{snippets}/bookpost/getdetail/response-fields.adoc[]
+
+[[resources-bookpost-getPostType]]
+== 게시글 BookPostType으로 조회
+=== 요청
+include::{snippets}/bookpost/getPostType/http-request.adoc[]
+include::{snippets}/bookpost/getPostType/request-parameters.adoc[]
+=== 응답
+include::{snippets}/bookpost/getPostType/response-body.adoc[]
+include::{snippets}/bookpost/getPostType/response-fields.adoc[]
+
+[[resources-bookpost-getUser]]
+== 현재 로그인한 유저의 게시글 조회
+=== 요청
+include::{snippets}/bookpost/getUser/http-request.adoc[]
+=== 응답
+include::{snippets}/bookpost/getUser/response-body.adoc[]
+include::{snippets}/bookpost/getUser/response-fields.adoc[]

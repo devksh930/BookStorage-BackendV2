@@ -1,4 +1,4 @@
-package com.bookstoragev2.bookstorage.bookpost;
+package com.bookstoragev2.bookstorage.bookpost.dto;
 
 import com.bookstoragev2.bookstorage.domain.BookPost;
 import com.bookstoragev2.bookstorage.domain.BookPostType;
@@ -16,6 +16,8 @@ public class BookPostResponseDto {
 
     private String content;
 
+    private int count;
+
     private BookPostType bookPostType;
 
     private LocalDateTime createDate;
@@ -27,6 +29,7 @@ public class BookPostResponseDto {
         this.title = bookPost.getTitle();
         this.writer = bookPost.getBookStorage().getUser().getNickname();
         this.content = bookPost.getContent();
+        this.count = bookPost.getCount();
         this.bookPostType = bookPost.getBookPostType();
         this.createDate = bookPost.getCreatedDate();
         this.modifiedDate = bookPost.getModifiedDate();

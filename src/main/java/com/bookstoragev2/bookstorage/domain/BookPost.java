@@ -1,6 +1,6 @@
 package com.bookstoragev2.bookstorage.domain;
 
-import com.bookstoragev2.bookstorage.bookpost.BookPostAddDto;
+import com.bookstoragev2.bookstorage.bookpost.dto.BookPostAddDto;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,6 +36,12 @@ public class BookPost extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookstorage_id")
     private BookStorage bookStorage;
+
+    private int count = 0;
+
+    public void postCount() {
+        this.count += 1;
+    }
 
     public boolean isBookPostOwner(User user) {
         return this.getBookStorage().getUser().equals(user);

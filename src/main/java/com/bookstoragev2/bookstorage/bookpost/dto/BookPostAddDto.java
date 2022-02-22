@@ -1,4 +1,4 @@
-package com.bookstoragev2.bookstorage.bookpost;
+package com.bookstoragev2.bookstorage.bookpost.dto;
 
 import com.bookstoragev2.bookstorage.domain.BookPostType;
 import lombok.Data;

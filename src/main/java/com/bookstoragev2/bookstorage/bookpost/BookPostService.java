@@ -1,5 +1,7 @@
 package com.bookstoragev2.bookstorage.bookpost;
 
+import com.bookstoragev2.bookstorage.bookpost.dto.BookPostAddDto;
+import com.bookstoragev2.bookstorage.bookpost.dto.BookPostResponseDto;
 import com.bookstoragev2.bookstorage.bookstorage.BookStorageRepository;
 import com.bookstoragev2.bookstorage.domain.BookPost;
 import com.bookstoragev2.bookstorage.domain.BookPostType;
@@ -23,9 +25,9 @@ public class BookPostService {
     private final BookStorageRepository bookStorageRepository;
 
     public BookPostResponseDto addBookPost(User user, Long bookStorageId, BookPostAddDto bookPostAddDto) {
-        Optional<BookStorage> byId = bookStorageRepository.findById(bookStorageId);
+        Optional<BookStorage> byId = bookStorageRepository.findByIdAndUser(bookStorageId,user);
         BookStorage bookStorage = byId.orElseThrow(() -> new RuntimeException("책을 먼저 등록하고 작성할수 있습니다."));
-        isBookStorageOwner(bookStorage, user);
+//        isBookStorageOwner(bookStorage, user);
         BookPost bookPost = BookPost.builder()
                 .bookPostType(bookPostAddDto.getBookPostType())
                 .bookStorage(bookStorage)
@@ -38,25 +40,24 @@ public class BookPostService {
         return new BookPostResponseDto(save);
     }
 
-
     public List<BookPostResponseDto> getBookPostWithType(BookPostType bookPostType) {
         List<BookPost> byBookPostType = bookPostRepository.findByBookPostType(bookPostType);
         return bookPostListToDto(byBookPostType);
     }
 
     public List<BookPostResponseDto> getBookPostWithCurrentUser(User user) {
-        List<BookPost> byBookStorage_user = bookPostRepository.findByBookStorageUser(user);
-        return bookPostListToDto(byBookStorage_user);
+        List<BookPost> byBookStorageUser = bookPostRepository.findByBookStorageUser(user);
+        return bookPostListToDto(byBookStorageUser);
     }
 
     public BookPostResponseDto getBookPostDetails(Long bookPostId) {
         BookPost bookPost = bookPostRepository.findById(bookPostId)
                 .orElseThrow(() -> new RuntimeException("찾는 포스트가 없음"));
+        bookPost.postCount();
         return new BookPostResponseDto(bookPost);
     }
 
     public BookPostResponseDto modifyPost(User user, Long bookPostId, BookPostAddDto bookPostAddDto) {
-
         BookPost bookPost = bookPostRepository.findById(bookPostId)
                 .orElseThrow(() -> new RuntimeException("찾는 포스트가 없음"));
         isBookPostOwner(bookPost, user);
@@ -71,12 +72,6 @@ public class BookPostService {
             bookPostResponseDtos.add(bookPostResponseDto);
         }
         return bookPostResponseDtos;
-    }
-
-    private void isBookStorageOwner(BookStorage bookStorage, User user) {
-        if (!bookStorage.isBookStorageOwner(user)) {
-            throw new RuntimeException("소유자가아님");
-        }
     }
 
     private void isBookPostOwner(BookPost bookPost, User user) {
