@@ -9,6 +9,8 @@ import com.bookstoragev2.bookstorage.domain.BookStorage;
 import com.bookstoragev2.bookstorage.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ public class BookPostService {
     private final BookStorageRepository bookStorageRepository;
 
     public BookPostResponseDto addBookPost(User user, Long bookStorageId, BookPostAddDto bookPostAddDto) {
-        Optional<BookStorage> byId = bookStorageRepository.findByIdAndUser(bookStorageId,user);
+        Optional<BookStorage> byId = bookStorageRepository.findByIdAndUser(bookStorageId, user);
         BookStorage bookStorage = byId.orElseThrow(() -> new RuntimeException("책을 먼저 등록하고 작성할수 있습니다."));
 //        isBookStorageOwner(bookStorage, user);
         BookPost bookPost = BookPost.builder()
@@ -40,14 +42,12 @@ public class BookPostService {
         return new BookPostResponseDto(save);
     }
 
-    public List<BookPostResponseDto> getBookPostWithType(BookPostType bookPostType) {
-        List<BookPost> byBookPostType = bookPostRepository.findByBookPostType(bookPostType);
-        return bookPostListToDto(byBookPostType);
+    public Page<BookPost> getBookPostWithType(BookPostType bookPostType, Pageable pageable) {
+        return bookPostRepository.findByBookPostType(bookPostType, pageable);
     }
 
-    public List<BookPostResponseDto> getBookPostWithCurrentUser(User user) {
-        List<BookPost> byBookStorageUser = bookPostRepository.findByBookStorageUser(user);
-        return bookPostListToDto(byBookStorageUser);
+    public Page<BookPost> getBookPostWithCurrentUser(User user, Pageable pageable) {
+        return bookPostRepository.findByBookStorageUser(user, pageable);
     }
 
     public BookPostResponseDto getBookPostDetails(Long bookPostId) {

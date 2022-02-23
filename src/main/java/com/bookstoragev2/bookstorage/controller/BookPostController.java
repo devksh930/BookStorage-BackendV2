@@ -6,13 +6,17 @@ import com.bookstoragev2.bookstorage.bookpost.dto.BookPostAddDto;
 import com.bookstoragev2.bookstorage.bookpost.dto.BookPostResponseDto;
 import com.bookstoragev2.bookstorage.common.util.ApiResult;
 import com.bookstoragev2.bookstorage.common.util.ApiUtils;
+import com.bookstoragev2.bookstorage.domain.BookPost;
 import com.bookstoragev2.bookstorage.domain.BookPostType;
 import com.bookstoragev2.bookstorage.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,16 +44,33 @@ public class BookPostController {
     }
 
     //    BookPostType으로 게시글을 가저온다
-    //    todo paging 필요
     @GetMapping("/bookposts")
-    public ApiResult<List<BookPostResponseDto>> getBookPostWithType(@RequestParam(value = "type") BookPostType bookPostType) {
-        return ApiUtils.success(bookPostService.getBookPostWithType(bookPostType));
+    public ApiResult<List<BookPostResponseDto>> getBookPostWithType(@RequestParam(value = "type") BookPostType bookPostType,
+                                                                    @RequestParam(value = "size") int size,
+                                                                    @RequestParam(value = "page") int page) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        Page<BookPost> bookPostWithType = bookPostService.getBookPostWithType(bookPostType, pageRequest);
+        List<BookPostResponseDto> bookPostResponse = bookPostWithType.getContent().stream()
+                .map(BookPostResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ApiUtils.successPaging(bookPostResponse, bookPostWithType.getSize(), bookPostWithType.getTotalElements());
     }
 
     //    로그인된 유저가 작성한 BookPost를 가져온다
+    //    todo paging 필요
     @GetMapping("/users/bookposts")
-    public ApiResult<List<BookPostResponseDto>> getBookPostWithCurrentUser(@CurrentUser User user) {
-        return ApiUtils.success(bookPostService.getBookPostWithCurrentUser(user));
+    public ApiResult<List<BookPostResponseDto>> getBookPostWithCurrentUser(@CurrentUser User user,
+                                                                           @RequestParam(value = "size") int size,
+                                                                           @RequestParam(value = "page") int page) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<BookPost> bookPostWithCurrentUser = bookPostService.getBookPostWithCurrentUser(user, pageRequest);
+        List<BookPostResponseDto> collect = bookPostWithCurrentUser.getContent().stream()
+                .map(BookPostResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ApiUtils.successPaging(collect, bookPostWithCurrentUser.getSize(), bookPostWithCurrentUser.getTotalElements());
     }
 
 

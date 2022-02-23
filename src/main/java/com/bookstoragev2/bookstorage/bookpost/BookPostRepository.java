@@ -3,6 +3,8 @@ package com.bookstoragev2.bookstorage.bookpost;
 import com.bookstoragev2.bookstorage.domain.BookPost;
 import com.bookstoragev2.bookstorage.domain.BookPostType;
 import com.bookstoragev2.bookstorage.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,8 @@ public interface BookPostRepository extends JpaRepository<BookPost, Long> {
     Optional<BookPost> findByIdAndBookStorageUser(Long id, User user);
 
     @EntityGraph(attributePaths = {"bookStorage.user"})
-    List<BookPost> findByBookPostType(BookPostType postType);
+    Page<BookPost> findByBookPostType(BookPostType postType, Pageable pageable);
 
     @EntityGraph(attributePaths = {"bookStorage.user"})
-    List<BookPost> findByBookStorageUser(User user);
+    Page<BookPost> findByBookStorageUser(User user, Pageable pageable);
 }
