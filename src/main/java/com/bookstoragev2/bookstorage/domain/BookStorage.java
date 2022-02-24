@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @NamedEntityGraph(name = "BookStorageWithBook",attributeNodes = @NamedAttributeNode("book"))
+@NamedEntityGraph(name = "BookStorageWithUser",attributeNodes = @NamedAttributeNode("user"))
 public class BookStorage extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,10 @@ public class BookStorage extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public boolean isBookStorageOwner(User user) {
+        return this.user.equals(user);
+    }
 
     public BookStorage(BookReadType bookReadType, User user, Book book) {
         this.bookReadType = bookReadType;

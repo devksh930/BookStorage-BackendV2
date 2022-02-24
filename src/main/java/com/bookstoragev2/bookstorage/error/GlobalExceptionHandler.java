@@ -2,7 +2,6 @@ package com.bookstoragev2.bookstorage.error;
 
 import com.bookstoragev2.bookstorage.common.BookAPIBadRequest;
 import com.bookstoragev2.bookstorage.error.exception.BookStorageExistException;
-import com.bookstoragev2.bookstorage.error.exception.CustomAuthenticationEntryPointException;
 import com.bookstoragev2.bookstorage.error.exception.NotFoundBookDetail;
 import com.bookstoragev2.bookstorage.error.exception.UserJoinExistException;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 @Slf4j
@@ -22,6 +22,17 @@ public class GlobalExceptionHandler {
         log.error("Handle AccessDeniedException ", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
+    }
+
+    /**
+     * enum type 일치하지 않아 binding 못할 경우 발생
+     *  RequestParam enum으로 binding 못했을 경우 발생
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        log.error("handleMethodArgumentTypeMismatchException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TYPE_VALUE);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     //    User

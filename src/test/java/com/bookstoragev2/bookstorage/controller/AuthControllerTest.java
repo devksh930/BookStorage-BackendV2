@@ -2,7 +2,6 @@ package com.bookstoragev2.bookstorage.controller;
 
 import com.bookstoragev2.bookstorage.config.ApiDocumentUtils;
 import com.bookstoragev2.bookstorage.config.IntergrationTestWithRestDocs;
-import com.bookstoragev2.bookstorage.config.WithUser;
 import com.bookstoragev2.bookstorage.user.UserRepository;
 import com.bookstoragev2.bookstorage.user.dto.UserLoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +16,7 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
@@ -53,7 +53,7 @@ class AuthControllerTest {
 
     @Test
     @DisplayName("로그인을 한다")
-    @WithUser("test@test.com")
+    @Transactional
     public void login() throws Exception {
         UserLoginDto loginDto = new UserLoginDto();
         loginDto.setEmail("test@test.com");
