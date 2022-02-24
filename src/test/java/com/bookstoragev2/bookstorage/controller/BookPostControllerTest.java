@@ -131,6 +131,8 @@ class BookPostControllerTest {
     public void getBookPostWithType() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/bookposts")
                 .queryParam("type", BookPostType.FEED.name())
+                .queryParam("size", "10")
+                .queryParam("page", "0")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .contentType(MediaType.APPLICATION_JSON)).andDo(print());
@@ -140,7 +142,9 @@ class BookPostControllerTest {
                         document("bookpost/getPostType",
                                 ApiDocumentUtils.getDocumentResponse(),
                                 requestParameters(
-                                        parameterWithName("type").description("BookPost의 Type(FEED,REVIEW,SUMMARY)")
+                                        parameterWithName("type").description("BookPost의 Type(FEED,REVIEW,SUMMARY)"),
+                                        parameterWithName("page").description("불러올 page 0 부터 시작"),
+                                        parameterWithName("size").description("한 페이지에 가져올 요소 수")
                                 ),
                                 getBookPostListResponse()
                         ));
@@ -151,6 +155,8 @@ class BookPostControllerTest {
     @WithUser("test@test.com")
     public void getBookPostWithCurrentUser() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/users/bookposts")
+                .queryParam("size", "10")
+                .queryParam("page", "0")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .contentType(MediaType.APPLICATION_JSON)).andDo(print());
@@ -159,6 +165,10 @@ class BookPostControllerTest {
                 .andDo(
                         document("bookpost/getUser",
                                 ApiDocumentUtils.getDocumentResponse(),
+                                requestParameters(
+                                        parameterWithName("page").description("불러올 page 0 부터 시작"),
+                                        parameterWithName("size").description("한 페이지에 가져올 요소 수")
+                                ),
                                 getBookPostListResponse()
                         ));
     }
@@ -166,6 +176,9 @@ class BookPostControllerTest {
     private ResponseFieldsSnippet getBookPostListResponse() {
         return responseFields(
                 fieldWithPath("success").description("성공여부"),
+                fieldWithPath("size").description("한 페이지에 받아올 요소수"),
+                fieldWithPath("currentPage").description("현재 페이지의 수"),
+                fieldWithPath("totalElement").description("총 요소의 수"),
                 fieldWithPath("result").description("호출된 결과값"),
                 fieldWithPath("result.[].id").description("BookPost ID값"),
                 fieldWithPath("result.[].title").description("BookPost 제목"),

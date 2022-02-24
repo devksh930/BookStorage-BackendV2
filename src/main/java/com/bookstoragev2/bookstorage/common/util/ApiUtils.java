@@ -8,7 +8,7 @@ public class ApiUtils {
         return new ApiResult<>(true, result);
     }
 
-    public static <T> ApiResult<T> successPaging(T result, int size, long totalElement) {
-        return new ApiResult<>(true, result, size, totalElement);
+    public static <T> ApiResult<T> successPaging(T result, int size, int currentPage, long totalElement) {
+        return new ApiResult<>(true, result, size, currentPage, totalElement);
     }
 }

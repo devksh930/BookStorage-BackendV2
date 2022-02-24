@@ -9,6 +9,7 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(405, "C002", "지원하지 않는 메서드입니다"),
     HANDLE_ACCESS_DENIED(403, "C003", "지원하지 않는 권한입니다."),
     HANDLE_AUTHENTICATION_ENTRYPOINT(401, "C004", "로그인후 사용가능합니다."),
+    INVALID_TYPE_VALUE(400, "C005", "잘못된 Type의 값을 입력 하였습니다."),
 
     // User
     EMAIL_DUPLICATION(400, "U001", "잘못된 email형식 입니다."),
