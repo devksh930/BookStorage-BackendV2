@@ -1,5 +1,6 @@
 package com.bookstoragev2.bookstorage.bookstorage.dto;
 
+import com.bookstoragev2.bookstorage.domain.BookReadType;
 import com.bookstoragev2.bookstorage.domain.BookStorage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,13 @@ public class BookStorageResponseDto {
     private String author;
     private String publisher;
     private String isbn;
+    private BookReadType bookReadType;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
     public BookStorageResponseDto(BookStorage bookStorage) {
         id = bookStorage.getId();
+        bookReadType = bookStorage.getBookReadType();
         title = bookStorage.getBook().getTitle();
         link = bookStorage.getBook().getLink();
         image = bookStorage.getBook().getImage();

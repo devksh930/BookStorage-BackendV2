@@ -60,7 +60,7 @@ class BookPostControllerTest {
         bookPostAddDto.setTitle("게시글 제목");
         bookPostAddDto.setContent("게시글 내용");
 
-        ResultActions resultActions = mockMvc.perform(post("/bookstorage/{bookStorageId}/bookposts", 5)
+        ResultActions resultActions = mockMvc.perform(post("/bookstorage/{bookStorageId}/bookposts", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(this.objectMapper.writeValueAsString(bookPostAddDto))
@@ -84,11 +84,10 @@ class BookPostControllerTest {
     @WithUser("test@test.com")
     public void modifyPost() throws Exception {
         BookPostAddDto bookPostAddDto = new BookPostAddDto();
-        bookPostAddDto.setBookPostType(BookPostType.FEED);
         bookPostAddDto.setTitle("게시글 제목 수정");
         bookPostAddDto.setContent("게시글 내용 수정");
 
-        ResultActions resultActions = mockMvc.perform(patch("/bookposts/{bookPostId}", 5)
+        ResultActions resultActions = mockMvc.perform(patch("/bookposts/{bookPostId}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(this.objectMapper.writeValueAsString(bookPostAddDto))
@@ -102,20 +101,24 @@ class BookPostControllerTest {
                                 ApiDocumentUtils.getDocumentResponse(),
                                 pathParameters(
                                         parameterWithName("bookPostId").description("BookPost의 ID")
-                                ), getBookPostResponse(),
-                                getBookPostRequest()
-                        ));
+                                ),
+                                getBookPostResponse(),
+                                requestFields(
+                                        fieldWithPath("title").description("BookPost 제목"),
+                                        fieldWithPath("content").description("BookPost 내용")
+                                )));
     }
 
     @Test
     @DisplayName("성공: BookPostId로 게시글을 상세조회 한다.")
     public void getBookPostDetails() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/bookposts/{bookPostId}", 5)
+        ResultActions resultActions = mockMvc.perform(get("/bookposts/{bookPostId}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .contentType(MediaType.APPLICATION_JSON)).andDo(print());
 
         resultActions.andExpect(status().isOk())
+                .andDo(print())
                 .andDo(
                         document("bookpost/getdetail",
                                 ApiDocumentUtils.getDocumentResponse(),
@@ -183,7 +186,7 @@ class BookPostControllerTest {
                 fieldWithPath("result.[].id").description("BookPost ID값"),
                 fieldWithPath("result.[].title").description("BookPost 제목"),
                 fieldWithPath("result.[].writer").description("BookPost 의 작성자 USER의 닉네임"),
-                fieldWithPath("result.[].content").description("BookPost 내용"),
+                fieldWithPath("result.[].description").description("BookPost 내용의 요약"),
                 fieldWithPath("result.[].count").description("BookPost 조회수"),
                 fieldWithPath("result.[].bookPostType").description("BookPost 의 타입 FEED, REVIEW, SUMMARY"),
                 fieldWithPath("result.[].createDate").description("글 작성 날짜Y"),
@@ -207,6 +210,7 @@ class BookPostControllerTest {
                 fieldWithPath("result.title").description("BookPost 제목"),
                 fieldWithPath("result.writer").description("BookPost 의 작성자 USER의 닉네임"),
                 fieldWithPath("result.content").description("BookPost 내용"),
+                fieldWithPath("result.description").description("BookPost 내용의 요약"),
                 fieldWithPath("result.count").description("BookPost 조회수"),
                 fieldWithPath("result.bookPostType").description("BookPost 의 타입 FEED, REVIEW, SUMMARY"),
                 fieldWithPath("result.createDate").description("글 작성 날짜Y"),

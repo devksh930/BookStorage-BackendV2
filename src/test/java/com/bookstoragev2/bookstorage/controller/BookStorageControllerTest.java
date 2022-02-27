@@ -81,6 +81,7 @@ class BookStorageControllerTest {
                                 fieldWithPath("result.author").type(JsonFieldType.STRING).description("저자"),
                                 fieldWithPath("result.publisher").type(JsonFieldType.STRING).description("출판사"),
                                 fieldWithPath("result.isbn").type(JsonFieldType.STRING).description("isbn"),
+                                fieldWithPath("result.bookReadType").type(JsonFieldType.STRING).description("책의 읽음 상태"),
                                 fieldWithPath("result.createdDate").type(JsonFieldType.STRING).description("서재 추가 날짜"),
                                 fieldWithPath("result.modifiedDate").type(JsonFieldType.STRING).description("서재 수정 날짜")),
 
@@ -117,6 +118,7 @@ class BookStorageControllerTest {
                                 fieldWithPath("result.[].author").type(JsonFieldType.STRING).description("저자"),
                                 fieldWithPath("result.[].publisher").type(JsonFieldType.STRING).description("출판사"),
                                 fieldWithPath("result.[].isbn").type(JsonFieldType.STRING).description("isbn"),
+                                fieldWithPath("result.[].bookReadType").type(JsonFieldType.STRING).description("책의 읽음 상태"),
                                 fieldWithPath("result.[].createdDate").type(JsonFieldType.STRING).description("서재 추가 날짜"),
                                 fieldWithPath("result.[].modifiedDate").type(JsonFieldType.STRING).description("서재 수정 날짜"))
                 ));

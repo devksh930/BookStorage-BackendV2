@@ -7,7 +7,6 @@ import com.bookstoragev2.bookstorage.common.util.ApiUtils;
 import com.bookstoragev2.bookstorage.common.util.CookieUtil;
 import com.bookstoragev2.bookstorage.domain.TokenType;
 import com.bookstoragev2.bookstorage.domain.User;
-import com.bookstoragev2.bookstorage.user.TokenRepository;
 import com.bookstoragev2.bookstorage.user.dto.TokenDto;
 import com.bookstoragev2.bookstorage.user.dto.UserLoginDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +22,11 @@ public class AuthController {
     private final AuthService authService;
     private final int accessTokenTTL;
     private final int refreshTokenTTL;
-    private final TokenRepository tokenRepository;
 
-    public AuthController(AuthService authService, @Value("${jwt.token.accessTokenTTL}") int accessTokenTTL, @Value("${jwt.token.refreshTokenTTL}") int refreshTokenTTL, TokenRepository tokenRepository) {
+    public AuthController(AuthService authService, @Value("${jwt.token.accessTokenTTL}") int accessTokenTTL, @Value("${jwt.token.refreshTokenTTL}") int refreshTokenTTL) {
         this.authService = authService;
         this.accessTokenTTL = accessTokenTTL;
         this.refreshTokenTTL = refreshTokenTTL;
-        this.tokenRepository = tokenRepository;
     }
 
 

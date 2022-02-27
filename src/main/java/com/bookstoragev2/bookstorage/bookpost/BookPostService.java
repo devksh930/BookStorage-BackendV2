@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -42,12 +40,12 @@ public class BookPostService {
         return new BookPostResponseDto(save);
     }
 
-    public Page<BookPost> getBookPostWithType(BookPostType bookPostType, Pageable pageable) {
-        return bookPostRepository.findByBookPostType(bookPostType, pageable);
+    public Page<BookPostResponseDto> getBookPostWithType(BookPostType bookPostType, Pageable pageable) {
+        return bookPostRepository.getBookPostWithTypeList(bookPostType, pageable);
     }
 
-    public Page<BookPost> getBookPostWithCurrentUser(User user, Pageable pageable) {
-        return bookPostRepository.findByBookStorageUser(user, pageable);
+    public Page<BookPostResponseDto> getBookPostWithCurrentUser(User user, Pageable pageable) {
+        return bookPostRepository.getBookPostWithUserList(user, pageable);
     }
 
     public BookPostResponseDto getBookPostDetails(Long bookPostId) {
@@ -65,14 +63,6 @@ public class BookPostService {
         return new BookPostResponseDto(bookPost);
     }
 
-    private List<BookPostResponseDto> bookPostListToDto(List<BookPost> byBookPostType) {
-        List<BookPostResponseDto> bookPostResponseDtos = new ArrayList<>();
-        for (BookPost bookPost : byBookPostType) {
-            BookPostResponseDto bookPostResponseDto = new BookPostResponseDto(bookPost);
-            bookPostResponseDtos.add(bookPostResponseDto);
-        }
-        return bookPostResponseDtos;
-    }
 
     private void isBookPostOwner(BookPost bookPost, User user) {
         if (!bookPost.isBookPostOwner(user)) {

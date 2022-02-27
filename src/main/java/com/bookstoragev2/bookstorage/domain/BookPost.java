@@ -24,8 +24,10 @@ public class BookPost extends BaseTimeEntity {
     @Column(nullable = false)
     private BookPostType bookPostType;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Lob
     private String content;
+
+    private String description;
 
     private int likeCount = 0;
 
@@ -52,6 +54,9 @@ public class BookPost extends BaseTimeEntity {
         this.title = title;
         this.bookPostType = bookPostType;
         this.content = content;
+        this.description = content.length() >= 100 ?
+                content.substring(0, 100).replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "").replace(System.getProperty("line.separator"), "")
+                : content.replace(System.getProperty("line.separator"), "");
         this.likeCount = 0;
         this.isPostPrivate = isReportPrivate;
         this.isDeleted = false;
@@ -60,7 +65,9 @@ public class BookPost extends BaseTimeEntity {
 
     public void bookPostModified(BookPostAddDto bookPostAddDto) {
         this.title = bookPostAddDto.getTitle();
-        this.bookPostType = bookPostAddDto.getBookPostType();
         this.content = bookPostAddDto.getContent();
+        this.description = bookPostAddDto.getContent().length() >= 100 ?
+                bookPostAddDto.getContent().substring(0, 100).replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "").replace(System.getProperty("line.separator"), "")
+                : bookPostAddDto.getContent().replace(System.getProperty("line.separator"), "");
     }
 }
